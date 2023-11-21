@@ -1,1 +1,1 @@
-This repo contains the code wrote to accomplish the Course Project (with spme additional tasks) of the "Telecommunication Theory" course.
+# transmission-simulation
