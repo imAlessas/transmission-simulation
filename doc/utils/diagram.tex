@@ -1,0 +1,65 @@
+\begin{figure}[b!]
+    \centering
+    \begin{tikzpicture}[
+        Step/.style = {rectangle, rounded corners = 5, inner sep = 10, draw = blue!60, fill = blue!10, thick, blur shadow, minimum size = 1cm},
+        % 
+        Noise/.style = {rounded rectangle, inner sep = 7, draw = black, dashed, very thick},
+        % 
+        Message/.style = {rectangle, draw = black!60, fill = black!1, thick, minimum width = 1.7cm, minimum height = 1cm },
+    ]
+        % Source
+        \node[Step] (Source) {\textbf{Source}};
+        \node[Step] (FormDevSou) [below = of Source] {Formatting Device};
+        \node[Step] (SourceCoding) [below = of FormDevSou] {Source Coding};
+        \node[Step] (ChanCod) [below = of SourceCoding] {Channel coding};
+        \node[Step] (Interleaving) [below = of ChanCod] {Interleaving};
+        \node[Step] (Scrambling) [below = of Interleaving] {Scrambling};
+        \node[Step] (Modulation) [below = of Scrambling] {Modulation};
+
+        % Noise
+        \node[Noise] (Noise) [right = 2cm of Modulation] {Noise};
+
+        % Message
+        \node[Message] (Message) [right = 2cm of Source] {Message};
+
+        % Destination
+        \node[Step] (Destination) [right = 2cm of Message] {\textbf{Destination}};
+        \node[Step] (FormDevDest) [below = of Destination] {Formatting Device};
+        \node[Step] (SourceDec) [below = of FormDevDest] {Source Decoding};
+        \node[Step] (ChanDec) [below = of SourceDec] {Channel decoding};
+        \node[Step] (Deinterleaving) [below = of ChanDec] {Deinterleaving};
+        \node[Step] (Descrambling) [below = of Deinterleaving] {Descrambling};
+        \node[Step] (Demodulation) [below = of Descrambling] {Demodulation};
+        
+
+
+
+        % Arrow Message
+        \draw[-, dashed] (Source) to node[]{} (Message);
+        \draw[->, dashed] (Message) to node[]{} (Destination);
+
+
+        % Arrows source
+        \draw[->, very thick] (Source) to node[]{} (FormDevSou);
+        \draw[->, very thick] (FormDevSou) to node[]{} (SourceCoding);
+        \draw[->, very thick] (SourceCoding) to node[]{} (ChanCod);
+        \draw[->, very thick] (ChanCod) to node[]{} (Interleaving);
+        \draw[->, very thick] (Interleaving) to node[]{} (Scrambling);
+        \draw[->, very thick] (Scrambling) to node[]{} (Modulation);
+
+        % Noise
+        \draw[->, very thick] (Modulation) to node[]{} (Noise);
+        \draw[->, very thick] (Noise) to node[]{} (Demodulation);
+
+        % Arrows destination
+        \draw[->, very thick] (Demodulation) to node[]{} (Descrambling);
+        \draw[->, very thick] (Descrambling) to node[]{} (Deinterleaving);
+        \draw[->, very thick] (Deinterleaving) to node[]{} (ChanDec);
+        \draw[->, very thick] (ChanDec) to node[]{} (SourceDec);
+        \draw[->, very thick] (SourceDec) to node[]{} (FormDevDest);
+        \draw[->, very thick] (FormDevDest) to node[]{} (Destination);
+
+    \end{tikzpicture}
+    \caption{The diagram of the digital information transmission system.}
+    \label{fig:transmission_diagram}
+\end{figure}
