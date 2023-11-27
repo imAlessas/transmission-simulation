@@ -1,10 +1,12 @@
 clc, clearvars, clear, format compact
 
+import utils.*
+
 % RESULT will display the values asked in the guidelines
 % DEBUG will display also other variables or comparisons
 % 0 = OFF, 1 = ON
 RESULT = 1; 
-DEBUG = 1;
+DEBUG = 0;
 
 
 % - - - - - Initial constant parameters - - - -
@@ -31,28 +33,28 @@ U = 1; % amplitude BPSK signal [V]
 task(2);
 
 P = sort(PROBABILITY_VECTOR, 'descend'); % probability vector sorted from highst to lowest
-display(RESULT, P', 'p');
-display(DEBUG, sum(P), 'sum(p)');
+show(RESULT, P', 'p');
+show(DEBUG, sum(P), 'sum(p)');
 
 
 % Values obtained with Shannon-Fano code algorithm
 m = [3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5]; 
 m_0 = [0, 1, 1, 2, 1, 2, 3, 2, 3, 3, 4, 5];
 m_1 = [3, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 0];
-display(DEBUG, m == (m_0 + m_1), 'm == (m_0 + m_1)');
+show(DEBUG, m == (m_0 + m_1), 'm == (m_0 + m_1)');
 
 % sum(a .* b) = a * b' = dot(a,b)
 H = - dot(P, log2(P)); % source entropy
-display(RESULT, H);
+show(RESULT, H);
 
 N  = length(P); % symbols on the alphabet
-display(DEBUG, N);
+show(DEBUG, N);
 
 H_max = log2(N); % max source entropy
-display(RESULT, H_max);
+show(RESULT, H_max);
 
 source_redoundancy = 1 - H/H_max; % coefficient 'rho'
-display(RESULT, source_redoundancy);
+show(RESULT, source_redoundancy);
 
 
 
@@ -65,32 +67,32 @@ task(3);
 
 % Averages
 m_average = dot(P, m); % avarage codeword length
-display(RESULT, m_average);
+show(RESULT, m_average);
 
 m_0_average = dot(P, m_0); % avarage number of 0 symbols
-display(DEBUG, m_0_average);
+show(DEBUG, m_0_average);
 
 m_1_average = dot(P, m_1); % average number of 1 symbols
-display(DEBUG, m_1_average);
+show(DEBUG, m_1_average);
 
 % Probabilities
 P_0 = m_0_average / m_average; % probability of 0 symbol
-display(RESULT, P_0);
+show(RESULT, P_0);
 
 P_1 = m_1_average / m_average; % probability of 1 symbol
-display(RESULT, P_1);
+show(RESULT, P_1);
 
-display(DEBUG, P_0 + P_1, 'P_0 + P_1');
+show(DEBUG, P_0 + P_1, 'P_0 + P_1');
 
 % Binary entropy
 H_bin = - P_0 * log2(P_0) - P_1 * log2(P_1); % binary source entropy after coding
-display(RESULT, H_bin);
+show(RESULT, H_bin);
 
 R = H * (m_average * TAU) ^ (-1); % data rate
-display(RESULT, R);
+show(RESULT, R);
 
 K = m_average / H; % compression ratio
-display(RESULT, K);
+show(RESULT, K);
 
 
 
@@ -100,29 +102,29 @@ display(RESULT, K);
 task(4);
 
 C = 1 / TAU; % noiseless channel capacity
-display(DEBUG, C);
-display(RESULT, R < C, 'R < C');
+show(DEBUG, C);
+show(RESULT, R < C, 'R < C');
 
 Eb_N0 = 10^(SNR / 10);
-display(DEBUG, Eb_N0);
+show(DEBUG, Eb_N0);
 
 % define the phi function
 phi = @(x) 1/2 * ( 1 + erf(x / sqrt(2)) );
 
 P_err = 1 - phi( sqrt( 2 * Eb_N0) ); % error probability
-display(DEBUG, P_err);
+show(DEBUG, P_err);
 
 P_err_comp = 1 - P_err; % no error probability
-display(DEBUG, P_err_comp);
+show(DEBUG, P_err_comp);
 
 C_chan = ( 1 + P_err * log2(P_err) + P_err_comp * log2(P_err_comp) ) * C;
-display(RESULT, C_chan);
+show(RESULT, C_chan);
 
 % if R < C_chan = 1, Shannon theorem is verified. The data rate is lower
 % than the channel capacity with noise: this means that it is possible to
 % find a coding approach that will recover the errors. If the SNR would've
 % been lower (like 5) the shannon theorem was not verified
-display(RESULT, R < C_chan, 'R < C_chan'); 
+show(RESULT, R < C_chan, 'R < C_chan'); 
 
 
 
@@ -140,13 +142,13 @@ display(RESULT, R < C_chan, 'R < C_chan');
 task(7);
 
 omega_0 = 2 * pi * F_0; % anguolar carrier frequency
-display(DEBUG, omega_0);
+show(DEBUG, omega_0);
 
 OMEGA = pi / TAU; % base harmonic angoular frequency 
-display(DEBUG, OMEGA);
+show(DEBUG, OMEGA);
 
 k_0 = omega_0 / OMEGA; % Carrier frequency central index
-display(DEBUG, k_0);
+show(DEBUG, k_0);
 
 % Define range of indexes for spectrum
 k = k_0 + (-10 : 10);
@@ -199,44 +201,8 @@ task(8);
 % probability of the case when it is not possible to correct errors with
 % the Hamming code (>2 errors)
 P_uncur = 1 - (P_err_comp)^(CODEWORD_LENGTH) - CODEWORD_LENGTH * P_err * (P_err_comp)^(CODEWORD_LENGTH - 1);
-display(RESULT, P_uncur);
+show(RESULT, P_uncur);
 
 
 
-
-
-
-
-
-
-
-
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-% this functions it is used to help to debug the MATLAB code. When the
-% variable DEBUG = 1 the variable or the operation will be displayed on the
-% Command Window.
-function display(debug, var, str)
-    arguments
-            debug;
-            var;
-            str string = "";
-    end
-
-    if(debug && str == "")
-        disp(inputname(2)), disp(var), disp(newline);
-    elseif(debug)
-        disp(str), disp(var), disp(newline);
-    end
-end
-
-
-
-% this function is utilized to display the task divisor in the Command
-% Window: it is purely created in order to increase the readability
-function task(n)
-    disp(newline), disp(newline);
-    disp(" -- -- -- -- -- -- TASK " + n + " -- -- -- -- -- -- ");
-    disp(newline);
-end
 
