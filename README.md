@@ -1,1 +1,2 @@
-This repo contains the code wrote to accomplish the Course Project (with spme additional tasks) of the "Telecommunication Theory" course.
+# Transmission system simulation
+This project's goal is to simulate a complete digital information transmission system coded in MATLAB in order to accomplish the "Course Project" of the "Telecommunication Theory" course. 
