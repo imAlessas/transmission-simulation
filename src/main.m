@@ -29,9 +29,13 @@ U = 1; % amplitude BPSK signal [V]
 
 % - - - - - - - - - - Task 2 - - - - - - - - - -
 % YT: https://www.youtube.com/watch?v=js9iRBYVLqs
+% Source coding with Shannon-Fano code
 
 task(2);
 
+% This vector contains the probability obtained per every type od symbol
+% in the transmission. So in this particular case we have a codeword that 
+% is 31 symbols long but there are 12 possible sybols inside this codeword.
 P = sort(PROBABILITY_VECTOR, 'descend'); % probability vector sorted from highst to lowest
 show(RESULT, P', 'p');
 show(DEBUG, sum(P), 'sum(p)');
@@ -131,6 +135,7 @@ show(RESULT, R < C_chan, 'R < C_chan');
 
 
 % - - - - - - - - - - Task 5 - - - - - - - - - -
+% Analize the error correction of the cyclic-code
 
 
 % - - - - - - - - - - Task 6 - - - - - - - - - -
@@ -169,7 +174,7 @@ f.NumberTitle = 'off';
 f.Position = [450, 100, 700, 600];
 
 % plot 1st result
-subplot(2, 1, 1), stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'r' ), grid on,
+subplot(2, 1, 1), stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
 xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
 ylim([-0.05, 0.35]);
 
@@ -185,7 +190,7 @@ S_BASK =  2 * TAU * sinc(phase / pi ) * U / 4 * 1j;
 % PSD as a normalized squarred spectral function
 G_BPSK = 1/ TAU * abs(S_BASK) .^2;
 
-subplot(2, 1, 2), plot( omega / (2 * pi), G_BPSK, 'r' ), grid on,
+subplot(2, 1, 2), plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
 xlabel('Frequency [GHz]'), ylabel('PSD'), title('PSD of random signal')
 ylim([-0.1e-8, 1.6e-8]);
 
@@ -199,7 +204,7 @@ ylim([-0.1e-8, 1.6e-8]);
 task(8);
 
 % probability of the case when it is not possible to correct errors with
-% the Hamming code (>2 errors)
+% the Hamming code (> 2 errors)
 P_uncur = 1 - (P_err_comp)^(CODEWORD_LENGTH) - CODEWORD_LENGTH * P_err * (P_err_comp)^(CODEWORD_LENGTH - 1);
 show(RESULT, P_uncur);
 
