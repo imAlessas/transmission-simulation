@@ -9,8 +9,14 @@ RESULT = 1;
 DEBUG = 0;
 
 
-% - - - - - Initial constant parameters - - - -
-PROBABILITY_VECTOR = [11, 7, 9, 1, 6, 6, 13, 14, 13, 5, 11, 4]/100; % source number 7
+
+% = = = = = = = = = = = = = = = = = = = = = = = = 
+% Initial constant parameters
+
+% source number 7
+SYMBOL_VECTOR = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12"];
+PROBABILITY_VECTOR = [11, 7, 9, 1, 6, 6, 13, 14, 13, 5, 11, 4]/100;
+
 TAU = 60e-9; % symbol duration time, [s]
 SNR = 8.1; % Signal-to-Noise-Ration, [dB]
 % Source Code: Shannon-Fano
@@ -24,18 +30,22 @@ U = 1; % amplitude BPSK signal [V]
 
 
 
+% = = = = = = = = = = = = = = = = = = = = = = = = 
+% Formatting device
 
 
 
-% - - - - - - - - - - Task 2 - - - - - - - - - -
+
+
+% = = = = = = = = = = = = = = = = = = = = = = = = 
+% Analysis of data source with Shannon-Fano code (Task 2)
 % YT: https://www.youtube.com/watch?v=js9iRBYVLqs
-% Source coding with Shannon-Fano code
 
 task(2);
 
 % This vector contains the probability obtained per every type od symbol
 % in the transmission. So in this particular case we have a codeword that 
-% is 31 symbols long but there are 12 possible sybols inside this codeword.
+% is 31 symbols long but there are 12 possible symbols inside this codeword.
 P = sort(PROBABILITY_VECTOR, 'descend'); % probability vector sorted from highst to lowest
 show(RESULT, P', 'p');
 show(DEBUG, sum(P), 'sum(p)');
@@ -47,24 +57,29 @@ m_0 = [0, 1, 1, 2, 1, 2, 3, 2, 3, 3, 4, 5];
 m_1 = [3, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 0];
 show(DEBUG, m == (m_0 + m_1), 'm == (m_0 + m_1)');
 
+% source entropy
 % sum(a .* b) = a * b' = dot(a,b)
-H = - dot(P, log2(P)); % source entropy
+H = - dot(P, log2(P));
 show(RESULT, H);
 
-N  = length(P); % symbols on the alphabet
+% symbols on the alphabet
+N  = length(P);
 show(DEBUG, N);
 
-H_max = log2(N); % max source entropy
+% max source entropy
+H_max = log2(N);
 show(RESULT, H_max);
 
-source_redoundancy = 1 - H/H_max; % coefficient 'rho'
+% coefficient 'rho'
+source_redoundancy = 1 - H/H_max;
 show(RESULT, source_redoundancy);
 
 
 
 
 
-% - - - - - - - - - - Task 3 - - - - - - - - - -
+% = = = = = = = = = = = = = = = = = = = = = = = = 
+% Shannon-Fano encoding (Task 3)
 % YT: https://www.youtube.com/watch?v=js9iRBYVLqs
 
 task(3);
@@ -100,7 +115,7 @@ show(RESULT, K);
 
 
 
-% - - - - - - - - - - Task 4 - - - - - - - - - -
+% = = = = = = = = Task 4 = = = = = = = =
 % YT: https://www.youtube.com/watch?v=js9iRBYVLqs
 
 task(4);
@@ -134,14 +149,14 @@ show(RESULT, R < C_chan, 'R < C_chan');
 
 
 
-% - - - - - - - - - - Task 5 - - - - - - - - - -
+% = = = = = = = = Task 5 = = = = = = = =
 % Analize the error correction of the cyclic-code
 
 
-% - - - - - - - - - - Task 6 - - - - - - - - - -
+% = = = = = = = = Task 6 = = = = = = = =
 
 
-% - - - - - - - - - - Task 7 - - - - - - - - - -
+% = = = = = = = = Task 7 = = = = = = = =
 % YT: https://www.youtube.com/watch?v=Nq28LAZDURI
 
 task(7);
@@ -167,16 +182,19 @@ C_BASK = sinc(phase / pi) * U / 4 * 1j; % fourirer series coefficient, BASK
 % BPSK spectrum for periodocal '1' and '0' sequence (...1 0 1 0 1 0 1 0 1 0...)
 C_BPSK = C_BASK .* ( exp(1j * k * OMEGA * TAU / 2) -  exp(- 1j * k * OMEGA * TAU / 2));
 
-% creates figure and settings
-f = figure(1);
-f.Name = 'Task 7';
-f.NumberTitle = 'off';
-f.Position = [450, 100, 700, 600];
 
-% plot 1st result
-subplot(2, 1, 1), stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
-xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
-ylim([-0.05, 0.35]);
+if RESULT
+    % creates figure and settings
+    f = figure(1);
+    f.Name = 'Task 7';
+    f.NumberTitle = 'off';
+    f.Position = [450, 100, 700, 600];
+    
+    % plot 1st result
+    subplot(2, 1, 1), stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
+    xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
+    ylim([-0.05, 0.35]);
+end
 
 
 % Power Spectral Density (PSD) for random input signal
@@ -190,15 +208,16 @@ S_BASK =  2 * TAU * sinc(phase / pi ) * U / 4 * 1j;
 % PSD as a normalized squarred spectral function
 G_BPSK = 1/ TAU * abs(S_BASK) .^2;
 
-subplot(2, 1, 2), plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
-xlabel('Frequency [GHz]'), ylabel('PSD'), title('PSD of random signal')
-ylim([-0.1e-8, 1.6e-8]);
+if RESULT
+    subplot(2, 1, 2), plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
+    xlabel('Frequency [GHz]'), ylabel('PSD'), title('PSD of random signal')
+    ylim([-0.1e-8, 1.6e-8]);
+end
 
 
 
 
-
-% - - - - - - - - - - Task 8 - - - - - - - - - -
+% = = = = = = = = Task 8 = = = = = = = =
 % YT: https://www.youtube.com/watch?v=js9iRBYVLqs
 
 task(8);
