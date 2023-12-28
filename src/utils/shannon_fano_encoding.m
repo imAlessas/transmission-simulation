@@ -1,4 +1,4 @@
-function result = shannon_fano_encoding(symbol_sequence)
+function encoded_sequence = shannon_fano_encoding(symbol_sequence)
 % SHANNON_FANO_ENCODING performs Shannon-Fano encoding on a given symbol sequence.
 %
 % INPUT:
@@ -7,11 +7,11 @@ function result = shannon_fano_encoding(symbol_sequence)
 % OUTPUT:
 %   result:             a vector containing the Shannon-Fano encoded sequence.
 
-    result = [];
+    encoded_sequence = [];
     
     % Iterate through the symbol sequence and encode each symbol
     for i = 1:length(symbol_sequence)
-        result = [result, get_encoded_symbol(symbol_sequence(i))];
+        encoded_sequence = [encoded_sequence, get_encoded_symbol(symbol_sequence(i))];
     end
 end
 
