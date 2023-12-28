@@ -1,14 +1,14 @@
 function show(show, var, str)
-    % SHOW displays the specified variable along with an optional string, depending on the 'show' flag.
-    %
-    % INPUT:
-    %   show:   a logical flag indicating whether to display the variable (true) or not (false).
-    %   var:    the variable to be displayed.
-    %   str:    an optional string to be displayed along with the variable (default is an empty string).
-    %
-    % USAGE:
-    %   show(true, myVar) - Display the variable with its name.
-    %   show(true, myVar, 'Optional message') - Display the variable with an optional message.
+% SHOW displays the specified variable along with an optional string, depending on the 'show' flag.
+%
+% INPUT:
+%   show:   a logical flag indicating whether to display the variable (true) or not (false).
+%   var:    the variable to be displayed.
+%   str:    an optional string to be displayed along with the variable (default is an empty string).
+%
+% USAGE:
+%   show(true, myVar) - Display the variable with its name.
+%   show(true, myVar, 'Optional message') - Display the variable with an optional message.
 
     arguments
         show;            % A logical flag indicating whether to display the variable.

@@ -11,15 +11,15 @@ function encoded_sequence = shannon_fano_encoding(symbol_sequence)
     
     % Iterate through the symbol sequence and encode each symbol
     for i = 1:length(symbol_sequence)
-        encoded_sequence = [encoded_sequence, get_encoded_symbol(symbol_sequence(i))];
+        encoded_sequence = [encoded_sequence, encode_symbol(symbol_sequence(i))];
     end
 end
 
 
 
 
-function result = get_encoded_symbol(symbol)
-% GET_ENCODED_SYMBOL returns the Shannon-Fano encoded representation for a given symbol.
+function result = encode_symbol(symbol)
+% ENCODE_SYMBOL returns the Shannon-Fano encoded representation for a given symbol.
 %
 % INPUT:
 %   symbol:     an integer representing the input symbol to be encoded.

@@ -1,12 +1,12 @@
 function result = symbol_sequence_generator(symbol_matrix, n)
-    % SYMBOL_SEQUENCE_GENERATOR generates a sequence of symbols based on a given symbol matrix and the desired length of the sequence.
-    %
-    % INPUT:
-    %   symbol_matrix: a 2xN matrix where the first row represents symbols and the second row represents their corresponding probabilities.
-    %   n:             the desired length of the symbol sequence.
-    %
-    % OUTPUT:
-    %   result:       a 1xN vector containing the generated symbol sequence.
+% SYMBOL_SEQUENCE_GENERATOR generates a sequence of symbols based on a given symbol matrix and the desired length of the sequence.
+%
+% INPUT:
+%   symbol_matrix: a 2xN matrix where the first row represents symbols and the second row represents their corresponding probabilities.
+%   n:             the desired length of the symbol sequence.
+%
+% OUTPUT:
+%   result:       a 1xN vector containing the generated symbol sequence.
 
     arguments
         symbol_matrix;
@@ -43,13 +43,13 @@ end
 
 
 function result = distribution_probability_matrix(symbol_matrix)
-    % DISTRIBUITION_PROBABILITY_MATRIX calculates the cumulative distribution probability matrix based on the input symbol_matrix.
-    %
-    % INPUT:
-    %   symbol_matrix: a 2xN matrix where the first row represents the alphabet symbols and the second row represents their corresponding probabilities.
-    %
-    % OUTPUT:
-    %   result: a 2xN matrix where the first row contains symbols and the second row contains cumulative probabilities.
+% DISTRIBUITION_PROBABILITY_MATRIX calculates the cumulative distribution probability matrix based on the input symbol_matrix.
+%
+% INPUT:
+%   symbol_matrix: a 2xN matrix where the first row represents the alphabet symbols and the second row represents their corresponding probabilities.
+%
+% OUTPUT:
+%   result: a 2xN matrix where the first row contains symbols and the second row contains cumulative probabilities.
 
     arguments
         symbol_matrix;
@@ -62,14 +62,14 @@ function result = distribution_probability_matrix(symbol_matrix)
     alphabet_length = length(probability_vector);
 
     % Calculate the cumulative probability matrix
-    sum = 0;
+    cumulative_probability = 0;
     sum_probability_vector = zeros(1, alphabet_length);
     for i = 1:alphabet_length
         % Calculate cumulative probability
-        sum = sum + probability_vector(i);
+        cumulative_probability = cumulative_probability + probability_vector(i);
         
         % Store cumulative probability in the vector
-        sum_probability_vector(i) = sum;
+        sum_probability_vector(i) = cumulative_probability;
     end
 
     % Combine symbols and cumulative probabilities into the result matrix
