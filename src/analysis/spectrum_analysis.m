@@ -37,3 +37,21 @@ if RESULT && PLOTS
     xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
     ylim([-0.05, 0.35]);
 end
+
+
+% Power Spectral Density (PSD) for random input signal
+omega = ( k(1) : 1/100 : k(end) ) * OMEGA; % angoular frequency 
+
+phase = (omega - omega_0 ) * TAU / 2; % continuous phase 2
+
+S_BASK =  2 * TAU * sinc(phase / pi ) * U / 4 * 1j;
+
+
+% PSD as a normalized squarred spectral function
+G_BPSK = 1/ TAU * abs(S_BASK) .^2;
+
+if RESULT && PLOTS
+    subplot(2, 1, 2), plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
+    xlabel('Frequency [GHz]'), ylabel('PSD'), title('PSD of random signal')
+    ylim([-0.1e-8, 1.6e-8]);
+end
