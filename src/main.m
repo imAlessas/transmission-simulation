@@ -35,6 +35,12 @@ transmitted_symbol_number = 20;
 
 
 
+
+
+
+
+
+
 % = = = = = = = = = = = = = = = = = = = =
 % Source generation
 
@@ -92,6 +98,16 @@ run("analysis\shannon_theorem_condition_analysis.m")
 % Perform Cyclic-Hamming channel coding
 
 
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform interleaving
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform scrambling
 
 
 % = = = = = = = = Task 7 = = = = = = = =
