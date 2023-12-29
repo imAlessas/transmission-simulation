@@ -28,7 +28,7 @@ C_BPSK = C_BASK .* ( exp(1j * k * OMEGA * TAU / 2) -  exp(- 1j * k * OMEGA * TAU
 if RESULT && PLOTS
     % creates figure and settings
     f = figure(1);
-    f.Name = 'Task 7';
+    f.Name = 'Analysis of BPSK spectrum';
     f.NumberTitle = 'off';
     f.Position = [450, 100, 700, 600];
     
