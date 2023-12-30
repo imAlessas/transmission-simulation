@@ -1,7 +1,10 @@
 \setcounter{secnumdepth}{0}
 \section{Introduction}
 This document analyses and simulates the behavior of a digital transmission system. The document is split into two main parts:
+
 \todo{Finish introduction here}
+
+You can find the full project at \texttt{\href{https://github.com/imAlessas/transmission-simulation.git}{imAlessas/transmission-simulation.git}}.
 
 \subsection{General schematic}
 The full schematic - containing every step - of a transmission system is presented in figure \ref{fig:transmission_diagram}. Before exploring the mathematical background hidden between the steps, it is crucial to understand what every phase of the system means.
@@ -44,8 +47,41 @@ The full schematic - containing every step - of a transmission system is present
 \end{itemize}
 
 \subsection{Initial parameters}
-\todo{Add parameters here, use itemize for the parameters and insert the source in a table. Briefly describe every parameter}
-\todo{After The description, insert the MATLAB code}
+The parameters used in this project have been assigned in a datasheet and are reported in the following list:
+\vspace{-5px}
+\begin{itemize}
+    \renewcommand{\labelitemi}{$\cdot$}
+    \setlength{\itemsep}{-2px}
+    \item \textsl{Symbol duration}: 60 ns;
+    \item \textsl{SNR}: 8.1 dB;
+    \item \textsl{Source code}: Shannon-Fano coding;
+    \item \textsl{Error correction code}: cyclic coding with codeword length \textit{m = 31} and generator polynomial $ z^5 \oplus z^2 \oplus 1$;
+    \item \textsl{Frequency}: 2.5 GHz.
+\end{itemize}
+
+\noindent In addition, the source data (alphabet) and the symbols' respective probabilities are summarized in the following table.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \multicolumn{2}{|c|}{\texttt{Source 7}} \\\hline\hline
+        $ a_1 $ & 0.11 \\
+        $ a_2 $ & 0.07 \\
+        $ a_3 $ & 0.09 \\
+        $ a_4 $ & 0.01 \\
+        $ a_5 $ & 0.06 \\
+        $ a_6 $ & 0.06 \\
+        $ a_7 $ & 0.13 \\
+        $ a_8 $ & 0.14 \\
+        $ a_9 $ & 0.13 \\
+        $ a_{10} $ & 0.05 \\
+        $ a_{11} $ & 0.11 \\
+        $ a_{12} $ & 0.04 \\\hline
+    \end{tabular}
+    \label{tab:source7}
+\end{table}
+
+\noindent Afterwards the parameters have been transcripted in the MATLAB program, as shown in the following snippet. 
 
 \begin{lstlisting}
 % source number 7
