@@ -64,13 +64,3 @@ end
 % Display the total duration of the test
 disp("Test duration: " + test_duration);
 
-% Display the overall test result
-if errors == 0
-    disp("Test successfully passed!");
-else
-    disp("Test failed!");
-    disp("Total errors occurred: " + errors);
-end
-
-% Display the total duration of the test
-disp("Test duration: " + test_duration);

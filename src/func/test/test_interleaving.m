@@ -1,6 +1,5 @@
 clc, clear, format compact
 
-% Import utility functions from the 'utils' package
 import func.*
 
 % Set number of tests
