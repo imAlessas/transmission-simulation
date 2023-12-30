@@ -1,11 +1,13 @@
+# Ignore README.pdf file
 README.pdf
+
+# Ignore Visual Studio Code configuration files
 .vscode
 
+# Ignore the 'tmp' directory inside the 'src' directory
+src/tmp
 
-main.asv
-tmp
-
-
+# Ignore LaTeX files generated during compilation
 main.fdb_latexmk
 main.fls
 main.log
