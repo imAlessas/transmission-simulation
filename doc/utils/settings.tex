@@ -11,7 +11,7 @@
 \usepackage{pgfplots}\pgfplotsset{compat=1.18}
 \usepackage{color} % colors
 \usepackage{listings} % code listings
-% \usepackage{amsmath} % equations
+\usepackage{amsmath} % equations
 % \usepackage{enumitem} % for roman enumeration
 % \usepackage{pxfonts} % bold keywords
 % \usepackage{xurl} % url in more lines
@@ -24,6 +24,7 @@
 % \usepackage{placeins} % text after image: \FloatBarrier 
 % \usepackage{caption} % removes the "Figure 1" from the cption
 
+\setuptodonotes{fancyline, color=green!40}
 
 % Changes title of ToC
 \addto\captionsenglish{ %
@@ -39,13 +40,13 @@
 % \graphicspath{ {figures/} }
 
 
-% changes from "Listing 1" to "Code Fragment 1"
-% \addto\captionsitalian{%
-% \renewcommand{\lstlistingname}{Code Fragment}}
+% changes from "Listing 1" to "Code snippet"
+\addto\captionsitalian{%
+\renewcommand{\lstlistingname}{Code snippet}}
 
-% changes from "Listings" to "Index of code fragments"
-% \addto\captionsitalian{% 
-% \renewcommand{\lstlistlistingname}{Index of code fragments}}
+% changes from "Listings" to "Code snippets"
+\addto\captionsitalian{% 
+\renewcommand{\lstlistlistingname}{Code snippets}}
 
 
 

@@ -1,5 +1,5 @@
 \documentclass{article}
-\input{utils/packages}
+\input{utils/settings.tex}
 \input{utils/MatLab_theme}
 
 % \title{\vspace{180px} \textbf{\huge{Telecommunication Theory}} }
@@ -12,7 +12,22 @@
 \maketitle \newpage
 \tableofcontents\newpage
 
+\listoftodos
 
-\input{chapters/introduction}
+\lstset{style = MATLAB}
+
+\setcounter{secnumdepth}{1} % only numbered sections
+
+
+
+% \input{chapters/introduction}
+
+% \newpage
+\part{Analysis}
+\input{chapters/analysis/source-data.tex}
+
+% \newpage
+% \part{Simulation}
+
 
 \end{document}
