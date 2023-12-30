@@ -23,7 +23,7 @@ The source entropy $H$ and the maximum source entropy $H_{max}$. The entropy of 
     H_{max}(S) = - \sum_{i = 1}^{N}\,\frac{1}{N} \log_2 \frac{1}{N} = \frac{1}{N} \sum_{i = 1}^{N}\, \log_2 N = \log_2N
 \end{equation*}
 
-Also in this case the MATLAB script to calculate the maximum entropy is trivial.
+\noindent Also in this case the MATLAB script to calculate the maximum entropy is trivial.
 
 \begin{lstlisting}
     % Number of symbols in the alphabet
@@ -33,7 +33,7 @@ Also in this case the MATLAB script to calculate the maximum entropy is trivial.
     H_max = log2(N);
 \end{lstlisting}
 
-\todo{insert results from matlab}
+\noindent By running the scripts, the value obtained are $H = 3.3995$ while $H_{max} = 3.5850$. Reasonably $H < H_{max}$ because the given probabilities in the datasheet weren't equal to each other.
 
 % 
 \subsection{Redundancy coefficient}
@@ -51,7 +51,7 @@ The redundancy coefficient $\rho$ summarizes in a number how much additional inf
 source_redoundancy = 1 - H/H_max;
 \end{lstlisting}
 
-\todo{add results}
+\noindent Expectedly, the redundancy coefficient is not zero because $H<H_{max}$: by running the script, $\rho = 0.0517$.
 
 
 
