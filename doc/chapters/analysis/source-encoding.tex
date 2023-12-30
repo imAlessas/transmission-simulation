@@ -1,0 +1,37 @@
+\section{Source encoding}
+The source coding analysis provides the necessary tools to evaluate the source coding algorithms for efficient data representation and compression. In this case, the analysis calculates and uses different values to provide a better understanding of the efficiency of the Shannon-Fano source coding. Particularly the values that will be analyzed are the average codeword length $m_{average}$, the probability of \texttt{1} and \texttt{0} ($P_1$ and $P_0$), the binary entropy $H_{bin}$, the source data generation rate $R$ and the compression ratio $K$.
+
+
+\subsection{Shannon-Fano algorithm}
+Before calculating the values it is important to encode the symbols of the alphabet through the Shannon-Fano algorithm. A brief recursive description of it is reported below.
+\begin{enumerate}
+    \item Sort the symbol of the alphabet by descending probability;
+    \item Divide the sets of symbols into two continuous subsets with the same probability (or the lowest difference between the two);
+    \item Assign to one subset the symbol 1 and the other 0;
+    \item Repeat until every subset consists of one symbol;
+    \item Read the codeword from left to right.
+\end{enumerate} 
+
+\noindent By applying the Shannon-Fano algorithm to the given source, the result should be the following.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c c c c c|c|c|c|c|}
+        \hline
+        \texttt{S} & \texttt{P} & \multicolumn{5}{c}{} & \texttt{Code} & $m$ & $m_0$ & $m_1$ \\ \hline\hline
+        $a_8$    & 0.14 & \cellcolor{blue!35} & \cellcolor{cyan!35} & 1 &  &  & \texttt{111} & 3 & 0 & 3\\
+        $a_7$    & 0.13 & \cellcolor{blue!35} & \multirow[vpos]{-2}{*}{\cellcolor{cyan!35}1} & 0 &  &  & \texttt{110} & 3 & 1 & 2\\
+        $a_9$    & 0.13 & \cellcolor{blue!35} & \cellcolor{teal!35} & 1 &  &  & \texttt{101} & 3 & 1 & 2\\
+        $a_1$    & 0.11 & \multirow[vpos]{-4}{*}{\cellcolor{blue!35}1} & \multirow[vpos]{-2}{*}{\cellcolor{teal!35}1} & 0 &  &  & \texttt{100} & 3 & 2 & 1\\
+        $a_{11}$ & 0.11 & \cellcolor{purple!35} & \cellcolor{red!35} & 1 &  &  & \texttt{011} & 3 & 1 & 2\\
+        $a_3$    & 0.09 & \cellcolor{purple!35} & \cellcolor{red!35} & \cellcolor{orange!35} &  &  & \texttt{0101} & 4 & 2 & 2\\
+        $a_2$    & 0.07 & \cellcolor{purple!35} & \multirow[vpos]{-3}{*}{\cellcolor{red!35}1} & \multirow[vpos]{-2}{*}{\cellcolor{orange!35}0} &  &  & \texttt{0100} & 4 & 3 & 1\\
+        $a_5$    & 0.06 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  &  & \texttt{0011} & 4 & 2 & 2\\
+        $a_6$    & 0.06 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  &  & \texttt{0010} & 4 & 3 & 1\\
+        $a_{10}$ & 0.05 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  &  & \texttt{0001} & 4 & 3 & 1\\
+        $a_{12}$ & 0.04 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  & 1 & \texttt{00001} & 5 & 4 & 1\\
+        $a_4$    & 0.01 & \multirow[vpos]{-8}{*}{\cellcolor{purple!35}0} & \multirow[vpos]{-5}{*}{\cellcolor{magenta!35}0} &  &  & 0 & \texttt{00000} & 5 & 5 & 0\\
+        \hline
+
+    \end{tabular}
+\end{table}
