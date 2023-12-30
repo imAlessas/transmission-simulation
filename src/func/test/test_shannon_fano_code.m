@@ -1,6 +1,6 @@
 clc, clear, format compact
 
-import utils.*
+import func.*
 
 % Number of tests to perform
 number_of_tests = 100;

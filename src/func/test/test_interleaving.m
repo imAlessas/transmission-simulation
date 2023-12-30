@@ -1,7 +1,7 @@
 clc, clear, format compact
 
 % Import utility functions from the 'utils' package
-import utils.*
+import func.*
 
 % Set number of tests
 number_of_tests = 100;
