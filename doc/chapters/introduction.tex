@@ -45,8 +45,30 @@ The full schematic - containing every step - of a transmission system is present
 
 \subsection{Initial parameters}
 \todo{Add parameters here, use itemize for the parameters and insert the source in a table. Briefly describe every parameter}
+\todo{After The description, insert the MATLAB code}
+
+\begin{lstlisting}
+% source number 7
+ALPHABET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+PROBABILITY_VECTOR = [11, 7, 9, 1, 6, 6, 13, 14, 13, 5, 11, 4]/100;
+
+TAU = 60e-9; % symbol duration time, [s]
+SNR = 8.1; % Signal-to-Noise-Ration, [dB]
+% Source Code: Shannon-Fano
+% Error correction code: Cyclic
+CODEWORD_LENGTH = 31; % m
+% 
+F_0 = 2.5e+9; % carrier frequency [Hz]
+% Modulation: BPSK
+PHASE_SHIFT = pi; % [rad]
+U = 1; % amplitude BPSK signal [V]
+
+transmitted_symbol_number = 20;
+\end{lstlisting}
 
 
 
 
+
+\setcounter{secnumdepth}{1}
 
