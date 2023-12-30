@@ -1,6 +1,7 @@
 clc, clearvars, clear, format compact
 
 import utils.*
+import func.*
 
 % Display Level Configuration:
 % RESULT: Display values as per guidelines
