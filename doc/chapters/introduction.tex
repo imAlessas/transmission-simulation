@@ -52,14 +52,16 @@ The parameters used in this project have been assigned in a datasheet and are re
 \begin{itemize}
     \renewcommand{\labelitemi}{$\cdot$}
     \setlength{\itemsep}{-2px}
-    \item \textsl{Symbol duration}: 60 ns;
+    \item \textsl{Symbol duration}: 60 ns, also called $\tau$;
     \item \textsl{SNR}: 8.1 dB;
     \item \textsl{Source code}: Shannon-Fano coding;
     \item \textsl{Error correction code}: cyclic coding with codeword length \textit{m = 31} and generator polynomial $ z^5 \oplus z^2 \oplus 1$;
-    \item \textsl{Frequency}: 2.5 GHz.
+    \item \textsl{Carrier frequency}: 2.5 GHz;
+    \item \textsl{Modulation}: Binary Amplitude Shift Keying (BPSK) with the phase shift of $\pi$.
 \end{itemize}
 
 \noindent In addition, the source data (alphabet) and the symbols' respective probabilities are summarized in the following table.
+
 \begin{table}[h!]
     \centering
     \begin{tabular}{|c|c|}
