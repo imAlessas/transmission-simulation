@@ -1,6 +1,12 @@
 \documentclass{article}
+
+\input{utils/packages.tex}
+
+\input{utils/MATLAB_theme.tex}
+
 \input{utils/settings.tex}
-\input{utils/MatLab_theme}
+
+
 
 % \title{\vspace{180px} \textbf{\huge{Telecommunication Theory}} }
 \title{\vspace{160px} \textbf{\huge{Analysis and simulation of a digital transmission system}}}
@@ -10,28 +16,27 @@
 \begin{document}
 
 \maketitle \newpage
+
 \tableofcontents\newpage
 
-\listoftodos
-
-\lstset{style = MATLAB}
-
-\setcounter{secnumdepth}{1} % only numbered sections
+\listoftodos\newpage
 
 
 
-% \input{chapters/introduction}
 
 
-% \newpage
-% \part{Analysis}
+% \input{chapters/introduction.tex}
+
+
+\newpage\part{Analysis}
 
 % \input{chapters/analysis/source-data.tex}
 
 \input{chapters/analysis/source-encoding.tex}
 
-% \newpage
-% \part{Simulation}
+
+
+% \newpage \part{Simulation}
 
 
 \end{document}
