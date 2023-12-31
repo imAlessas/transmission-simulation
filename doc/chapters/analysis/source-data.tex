@@ -13,8 +13,8 @@ The source entropy $H$ and the maximum source entropy $H_{max}$. The entropy of 
 \noindent The entropy calculation can be simply achieved with the following MATLAB code. The only thing to note is that P is the probability vector that assigns to every symbol of the alphabet its probability. 
 
 \begin{lstlisting}  
-    % sum(P .* log2(P))
-    H = - dot(P, log2(P));
+    % sum(V .* log2(V))
+    H = - dot(PROBABILITY_VECTOR, log2(PROBABILITY_VECTOR));
 \end{lstlisting}
 
 \noindent Secondly, in order to calculate the maximum entropy $H_{max}$, two conditions have to be met: all of the symbols have the same probability $P_i = \frac{1}{N}$ and, of course, they do not correlate one another. Consequently:
@@ -27,7 +27,7 @@ The source entropy $H$ and the maximum source entropy $H_{max}$. The entropy of 
 
 \begin{lstlisting}
     % Number of symbols in the alphabet
-    N  = length(P);
+    N  = length(PROBABILITY_VECTOR);
 
     % Maximum source entropy
     H_max = log2(N);
