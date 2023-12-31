@@ -1,5 +1,5 @@
-\section{Source encoding}
-The source coding analysis provides the necessary tools to evaluate the source coding algorithms for efficient data representation and compression. In this case, the analysis calculates and uses different values to provide a better understanding of the efficiency of the Shannon-Fano source coding. Particularly the values that will be analyzed are the average codeword length $m_{average}$, the probability of \texttt{1} and \texttt{0} ($P_1$ and $P_0$), the binary entropy $H_{bin}$, the source data generation rate $R$ and the compression ratio $K$.
+\vspace{40px} \section{Source encoding}
+The source coding analysis provides the necessary tools to evaluate the source coding algorithms for efficient data representation and compression. In this case, the analysis calculates and uses different values to provide a better understanding of the efficiency of the Shannon-Fano source coding. Particularly the values that will be analyzed are the average codeword length $\overline{m}$, the probability of \texttt{1} and \texttt{0} ($P_1$ and $P_0$), the binary entropy $H_{bin}$, the source data generation rate $R$ and the compression ratio $K$.
 
 
 \subsection{Shannon-Fano algorithm}
@@ -18,20 +18,120 @@ Before calculating the values it is important to encode the symbols of the alpha
     \centering
     \begin{tabular}{|c|c|c c c c c|c|c|c|c|}
         \hline
-        \texttt{S} & \texttt{P} & \multicolumn{5}{c}{} & \texttt{Code} & $m$ & $m_0$ & $m_1$ \\ \hline\hline
-        $a_8$    & 0.14 & \cellcolor{blue!35} & \cellcolor{cyan!35} & 1 &  &  & \texttt{111} & 3 & 0 & 3\\
-        $a_7$    & 0.13 & \cellcolor{blue!35} & \multirow[vpos]{-2}{*}{\cellcolor{cyan!35}1} & 0 &  &  & \texttt{110} & 3 & 1 & 2\\
-        $a_9$    & 0.13 & \cellcolor{blue!35} & \cellcolor{teal!35} & 1 &  &  & \texttt{101} & 3 & 1 & 2\\
-        $a_1$    & 0.11 & \multirow[vpos]{-4}{*}{\cellcolor{blue!35}1} & \multirow[vpos]{-2}{*}{\cellcolor{teal!35}1} & 0 &  &  & \texttt{100} & 3 & 2 & 1\\
-        $a_{11}$ & 0.11 & \cellcolor{purple!35} & \cellcolor{red!35} & 1 &  &  & \texttt{011} & 3 & 1 & 2\\
-        $a_3$    & 0.09 & \cellcolor{purple!35} & \cellcolor{red!35} & \cellcolor{orange!35} &  &  & \texttt{0101} & 4 & 2 & 2\\
-        $a_2$    & 0.07 & \cellcolor{purple!35} & \multirow[vpos]{-3}{*}{\cellcolor{red!35}1} & \multirow[vpos]{-2}{*}{\cellcolor{orange!35}0} &  &  & \texttt{0100} & 4 & 3 & 1\\
-        $a_5$    & 0.06 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  &  & \texttt{0011} & 4 & 2 & 2\\
-        $a_6$    & 0.06 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  &  & \texttt{0010} & 4 & 3 & 1\\
-        $a_{10}$ & 0.05 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  &  & \texttt{0001} & 4 & 3 & 1\\
-        $a_{12}$ & 0.04 & \cellcolor{purple!35} & \cellcolor{magenta!35} &  &  & 1 & \texttt{00001} & 5 & 4 & 1\\
-        $a_4$    & 0.01 & \multirow[vpos]{-8}{*}{\cellcolor{purple!35}0} & \multirow[vpos]{-5}{*}{\cellcolor{magenta!35}0} &  &  & 0 & \texttt{00000} & 5 & 5 & 0\\
+        \texttt{S} & \texttt{P} & \multicolumn{5}{c|}{Shannon-Fano} & \texttt{Code} & $m$ & $m_0$ & $m_1$ \\ \hline\hline
+        $a_8$    & 0.14 & \cellcolor{teal!25} & \cellcolor{cyan!15} & 1 &  &  & \texttt{111} & 3 & 0 & 3\\
+        $a_7$    & 0.13 & \cellcolor{teal!25} & \multirow[vpos]{-2}{*}{\cellcolor{cyan!15}1} & 0 &  &  & \texttt{110} & 3 & 1 & 2\\
+        $a_9$    & 0.13 & \cellcolor{teal!25} & \cellcolor{cyan!20} & 1 &  &  & \texttt{101} & 3 & 1 & 2\\
+        $a_1$    & 0.11 & \multirow[vpos]{-4}{*}{\cellcolor{teal!25}1} & \multirow[vpos]{-2}{*}{\cellcolor{cyan!20}1} & 0 &  &  & \texttt{100} & 3 & 2 & 1\\
+        $a_{11}$ & 0.11 & \cellcolor{green!25} & \cellcolor{lime!25} & 1 &  &  & \texttt{011} & 3 & 1 & 2\\
+        $a_3$    & 0.09 & \cellcolor{green!25} & \cellcolor{lime!25} & \cellcolor{lime!15} & 1 &  & \texttt{0101} & 4 & 2 & 2\\
+        $a_2$    & 0.07 & \cellcolor{green!25} & \multirow[vpos]{-3}{*}{\cellcolor{lime!25}1} & \multirow[vpos]{-2}{*}{\cellcolor{lime!15}0} & 0 &  & \texttt{0100} & 4 & 3 & 1\\
+        $a_5$    & 0.06 & \cellcolor{green!25} & \cellcolor{lime!35} & \cellcolor{yellow!25} & 1 &  & \texttt{0011} & 4 & 2 & 2\\
+        $a_6$    & 0.06 & \cellcolor{green!25} & \cellcolor{lime!35} & \multirow[vpos]{-2}{*}{\cellcolor{yellow!25}1} & 0 &  & \texttt{0010} & 4 & 3 & 1\\
+        $a_{10}$ & 0.05 & \cellcolor{green!25} & \cellcolor{lime!35} & \cellcolor{yellow!35} & 1 &  & \texttt{0001} & 4 & 3 & 1\\
+        $a_{12}$ & 0.04 & \cellcolor{green!25} & \cellcolor{lime!35} & \cellcolor{yellow!35} & \cellcolor{orange!15} & 1 & \texttt{00001} & 5 & 4 & 1\\
+        $a_4$    & 0.01 & \multirow[vpos]{-8}{*}{\cellcolor{green!25}0} & \multirow[vpos]{-5}{*}{\cellcolor{lime!35}0} & \multirow[vpos]{-3}{*}{\cellcolor{yellow!35}0} & \multirow[vpos]{-2}{*}{\cellcolor{orange!15}0} & 0 & \texttt{00000} & 5 & 5 & 0\\
         \hline
 
     \end{tabular}
 \end{table}
+
+\FloatBarrier \noindent After computing the Shannon-Fano algorithm to the given source, the results should be inserted into the MATLAB program, as follows.
+
+\begin{lstlisting}
+% Probability vector sorted from highest to lowest
+P = sort(PROBABILITY_VECTOR, 'descend');
+
+
+% Values obtained with Shannon-Fano code algorithm
+
+% Symbols codeword length
+m = [3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5]; 
+
+% Number of 0s inside the symbols codeword
+m_0 = [0, 1, 1, 2, 1, 2, 3, 2, 3, 3, 4, 5];
+
+% Number of 1s inside the symbols codeword
+m_1 = [3, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 0];
+\end{lstlisting}
+
+
+\subsection{Binary entropy}
+At this point, there is all the needed information to calculate the required data for the analysis. First of all, to calculate the average codeword length $\overline{m}$ of $N$ symbols, the following formula should be computed:
+
+\begin{equation*}
+    \overline{m} = \sum_{i = 1}^N\,m_i \cdot P_i 
+\end{equation*}
+
+\noindent Additionally, to calculate $P_0$ and $P_1$, it is necessary to calculate also the average number of 0 and 1 symbols. The formula is the same as for the average codeword length:
+
+\begin{equation*}
+    \overline{m_0} = \sum_{i = 1}^N\,m_{0_i} \cdot P_i 
+    \hspace*{40px}
+    \overline{m_1} = \sum_{i = 1}^N\,m_{1_i} \cdot P_i
+\end{equation*}
+
+\noindent After inserting these formulas in the MATLAB script, the values are $\overline{m} = 3.4300$, $\overline{m_0} = 1.6400$ and $\overline{m_1} = 1.7900$.
+
+\begin{lstlisting}
+% Average codeword length
+m_average = dot(P, m); 
+
+% Average number of 0 symbols
+m_0_average = dot(P, m_0);
+
+% Average number of 1 symbols
+m_1_average = dot(P, m_1);
+\end{lstlisting}
+
+
+\noindent Moreover, by dividing the number of 0 or 1 symbols by the average length of the codeword the two probabilities, $P_0$ and $P_1$, can be computed:
+
+\begin{equation*}
+    P_0 = \frac{\overline{m_0}}{\overline{m}}
+    \hspace*{40px}
+    P_1 = \frac{\overline{m_1}}{\overline{m}}
+\end{equation*}
+
+\noindent The two probabilities values are $P_0 = 0.4781$ and $P_1 = 0.5219$. Ideally, the probabilities should be $P_0 = P_1 = 0.5$; nonetheless, the two values are still very close to each other. Finally, with the two probability values the binary entropy $H_{bin}$ can be obtained using the following calculation.
+
+\begin{equation*}
+    H_{bin}(S) = - P_0\log_2P_0 - P_1\log_2P_1
+\end{equation*}
+
+\noindent By running the following MATLAB script, the value of the binary entropy is $H_{bin} = 0.9986$ which is very close to 1. The higher the entropy is, the more uncertainty is associated with every symbol: this means that encoding the initial data with the Shannon-Fano algorithm provides a great value, information-wise.
+
+\begin{lstlisting}
+% Probability of 0 symbol
+P_0 = m_0_average / m_average; 
+
+% Probability of 1 symbol
+P_1 = m_1_average / m_average; 
+
+% Binary source entropy after coding
+H_bin = -P_0 * log2(P_0) - P_1 * log2(P_1); 
+\end{lstlisting}
+
+
+\subsection{Data rate and compression ratio}
+After encoding the source data with the Shannon-Fano algorithm, it is important to evaluate the source data generation rate $R$, which can be calculated as follows:
+
+\begin{equation*}
+    R = \frac{H(S)}{\overline{m}\tau}\text{, where $\tau$ is the symbol duration}
+\end{equation*}
+ 
+\noindent The data compression ratio $K$ is important as well: it helps evaluate how much the initial data has been compressed after the source coding. The following formula will help to obtain this value.
+
+\begin{equation*}
+    K = \frac{\overline{m}}{H(S)}
+\end{equation*}
+
+\noindent After running the MATLAB script displayed below, the data rate $R = 16.519 Mbit/s$ which should be lower than the channel capacity $C_{chan}$ with noise. Moreover, the compression ratio $K = 1.0090$ which is very close to 1, means that the overall compression is low: this is still not a bad result because the overall entropy is increased significantly after the source coding.
+
+\begin{lstlisting}
+% Calculate Data Rate
+R = H * (m_average * TAU) ^ (-1);
+
+% Calculate Compression Ratio
+K = m_average / H;
+\end{lstlisting}
