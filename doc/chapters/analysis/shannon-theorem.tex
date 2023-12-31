@@ -1,2 +1,67 @@
 \vspace{40px} \section{Shannon's theorem condition}
+Shannon's theorem asserts that for reliable communication two important conditions should be verified: using a strong error correction code for a specified SNR value and $R \leq C_{chan} - \epsilon,\, \epsilon\to0$ meaning that the source data rate $R$ should be less (or, at most equal) that the channel capacity $C_{chan}$.
 
+It is already possible to compare the data rate $R$ with the noiseless channel capacity $C_{bin}$ by computing this formula:
+
+\begin{equation*}
+    C = \frac{1}{\tau}
+\end{equation*}
+
+\noindent Expectedly, the result is $C_{bin} = 16.667$ Mbit/s and reasonably meet the Shannon's theorem contidion : $ R = 16.5 \text{ Mbps} \leq 16.7 \text{ Mbps} = C_{bin}$.
+
+
+\subsection{Bit Error Rate}
+Before calculating the channel capacity noise, the error probability $P_{err}$, also called BER (Bit Error Rate), shall be calculated. To do so, by reversing the SNR formula, the energy per bit to noise power spectral density ratio $\frac{E_b}{N_0}$ needs to be calculated:
+
+\begin{equation*}
+    \text{SNR} = 10\log_{10}(\frac{E_b}{N_0}) \hspace{10px} \Longrightarrow \hspace{10px} \frac{E_b}{N_0} = 10^{\frac{\text{SNR}}{10}}
+\end{equation*}
+
+\noindent Which translates in the following MATLAB line:
+
+\begin{lstlisting}
+% Energy per bit to noise power spectral density ratio
+Eb_N0 = 10^(SNR / 10);
+\end{lstlisting}
+
+\noindent To calculate the error probability of the BPSK modulation time, the following formula should be used:
+
+\begin{equation*}
+    P_{err} = 1-\Phi\left( \sqrt{2\frac{E_b}{N_0}} \right)
+\end{equation*}
+
+\noindent Additionally the $\Phi$ function can be created using the \texttt{erf} function in MATLAB as follows:
+
+\begin{equation*}
+    \Phi(x) = \frac{1}{2} \left[ 1 + \text{\texttt{erf}} \left( \frac{x}{\sqrt{2}} \right) \right]
+\end{equation*}
+
+\noindent With this information the MATLAB script can be produced and the BER value can be calculated: $P_{err} = 1.6315 \cdot 10^{-4} $.
+
+\begin{lstlisting}
+% define the phi function
+phi = @(x) 1/2 * ( 1 + erf(x / sqrt(2)) );
+
+% error probability
+P_err = 1 - phi( sqrt( 2 * Eb_N0) ); 
+
+% no error probability
+P_err_comp = 1 - P_err; 
+\end{lstlisting}
+
+
+\subsection{Channel capacity with noise}
+All the information needed for the calculation of $C_{chan}$ is now ready for use. To calculate the channel capacity with noise the following formula should be utilized:
+
+\begin{equation*}
+    C_{chan} = \frac{1}{\tau}\left[ 1 + P_{err}\log_2\left( P_{err} \right) + \left( 1 - P_{err} \right)\log_2 \left(  1 - P_{err} \right) \right] 
+\end{equation*}
+
+\noindent The formula translates in the following MATLAB code line:
+
+\begin{lstlisting}
+% Channel capacity with noise
+C_chan = ( 1 + P_err * log2(P_err) + P_err_comp * log2(P_err_comp) ) * C;
+\end{lstlisting}
+
+\noindent By running the script the result is $C_{chan} = 16.629 \text{Mbps} \geq 16.519 \text{Mbps} = R$ meaning that the Shannon's Theorem condition is fulfilled. Consequently, it is possible to find a coding approach that will recover the errors that occurred during the transmission. If the SNR value was, hypothetically, lower, there was a chance that $R > C_{chan}$ would've translated into the unpossibility of finding an error-correcting code for the transmission.
