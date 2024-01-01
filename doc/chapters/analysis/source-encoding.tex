@@ -1,4 +1,4 @@
-\vspace{40px} \section{Source encoding}
+\vspace{40px} \section{Source encoding} \label{source-encoding}
 The source coding analysis provides the necessary tools to evaluate the source coding algorithms for efficient data representation and compression. In this case, the analysis calculates and uses different values to provide a better understanding of the efficiency of the Shannon-Fano source coding. Particularly the values that will be analyzed are the average codeword length $\overline{m}$, the probability of \texttt{1} and \texttt{0} ($P_1$ and $P_0$), the binary entropy $H_{bin}$, the source data generation rate $R$ and the compression ratio $K$.
 
 
@@ -32,8 +32,8 @@ Before calculating the values it is important to encode the symbols of the alpha
         $a_{12}$ & 0.04 & \cellcolor{green!25} & \cellcolor{lime!35} & \cellcolor{yellow!35} & \cellcolor{orange!15} & 1 & \texttt{00001} & 5 & 4 & 1\\
         $a_4$    & 0.01 & \multirow[vpos]{-8}{*}{\cellcolor{green!25}0} & \multirow[vpos]{-5}{*}{\cellcolor{lime!35}0} & \multirow[vpos]{-3}{*}{\cellcolor{yellow!35}0} & \multirow[vpos]{-2}{*}{\cellcolor{orange!15}0} & 0 & \texttt{00000} & 5 & 5 & 0\\
         \hline
-
     \end{tabular}
+    \label{tab:shannon-fano}
 \end{table}
 
 \FloatBarrier \noindent After computing the Shannon-Fano algorithm to the given source, the results should be inserted into the MATLAB program, as follows.
