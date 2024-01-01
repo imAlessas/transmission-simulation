@@ -1,0 +1,61 @@
+\section{Data generation algorithm}
+To simulate the transmission using the given \hyperref[initial-parameters]{initial parameters} it is crucial to generate the symbols following the probabilities specified in the \hyperref[tab:source7]{\texttt{Source 7}} data sheet. To achieve such generation specifics a generation algorithm shall be implemented in MATLAB. The following MATLAB functions will generate a sequence of \texttt{n} symbols in the alphabet following their probability distribution.  
+
+\subsection{Comulative distribution probabilities calculator}
+The first function - \texttt{distribution\_probability\_matrix} - will take as input the \texttt{symbol\_matrix} whose first row contains the symbols in the alphabet and the second row contains their respective probabilities. The function will return a matrix whose first row is the same but the second row contains cumulative distribution meaning that the second probability value is added to the first, the third is added to the second and so on. Consequently, the last probability value will be one.
+
+\begin{lstlisting}
+function result = distribution_probability_matrix(symbol_matrix)
+    % Extract probability vector from the symbol matrix
+    probability_vector = symbol_matrix(2, :);
+    
+    % Get the number of possible symbols
+    alphabet_length = length(probability_vector);
+
+    % Calculate the cumulative probability matrix
+    cumulative_probability = 0;
+    sum_probability_vector = zeros(1, alphabet_length);
+    for i = 1:alphabet_length
+        % Calculate cumulative probability
+        cumulative_probability = cumulative_probability + probability_vector(i);
+        
+        % Store cumulative probability in the vector
+        sum_probability_vector(i) = cumulative_probability;
+    end
+
+    % Combine symbols and cumulative probabilities into the result matrix
+    result = [symbol_matrix(1, :); sum_probability_vector];
+end
+\end{lstlisting}
+
+\noindent This helper function will be useful when a random number $r$ between 0 and 1 is generated: the symbol associated with $r$ will be the $i$-th symbol where $P_{i-1} < r \leq P_i$. In such a way the symbols will have the same probability to be associated with the number $r$ as specified in the \hyperref[tab:source7]{datasheet}.
+
+
+\subsection{Sequence generator}
+The \texttt{distribution\_probability\_matrix} function will be used in the actual generation function called \texttt{symbol\_sequence\_generator} which generates \texttt{n} symbols conforming with their specified probabilities. The below-displayed function will generate a random number $r$ between 0 and 1 and associate it with the $i$-th symbol whose probability is $P_{i-1} < r \leq P_i$. This is achieved by subtracting the random number from the cumulative probability vector and choosing the symbol with the lowest positive probability value. This procedure is computed \texttt{n} time: every temporal association is added to the final result which will be the generated symbol sequence.
+
+\begin{lstlisting}
+function result = symbol_sequence_generator(symbol_matrix, n)
+    % Initialize an empty vector for the symbol sequence with length n
+    result = zeros(1, n);
+
+    % Calculate the cumulative probability matrix using the provided function
+    sum_probability_matrix = distribution_probability_matrix(symbol_matrix);
+    
+    % Generate the symbol sequence
+    for i = 1:n
+        % Generate a random number between 0.00 and 1.00
+        random_number = round(rand(), 2);
+        
+        % Calculate the distance of each cumulative probability from the random number
+        distance_from_random_number = sum_probability_matrix(2, :) - random_number;
+        distance_from_random_number(distance_from_random_number < 0) = +Inf;
+
+        % Get the index of the symbol with the minimum distance
+        [~, symbol] = min(distance_from_random_number);
+        
+        % Assign the selected symbol to the result vector
+        result(i) = symbol;
+    end
+end
+\end{lstlisting}
