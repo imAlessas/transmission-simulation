@@ -1,0 +1,109 @@
+\vspace{40px} \section{Source coding and decoding algorithms}
+The second step is to implement an algorithm that will encode and decode the newly generated symbols using the Shannon-Fano algorithm. The two algorithms are based on the results obtained and displayed in the \texttt{Code} column of the \hyperref[tab:shannon-fano]{table} in the \hyperref[source-encoding]{"Source encoding" section}.
+
+\subsection{Shannon-Fano encoding}
+The Shannon-Fano encoding can be achieved by using a very simple switch. Sure enough, the helper function \texttt{encode\_symbol} displayed below associates with every symbol in the alphabet and its respective codeword.
+
+\begin{lstlisting}
+function result = encode_symbol(symbol)
+    % Use a switch statement to assign the encoded representation based on the input symbol
+    switch symbol
+        case 1
+            result = [ 1 0 0 ];
+        case 2
+            result = [ 0 1 0 0 ];
+        case 3 
+            result = [ 0 1 0 1 ];
+        case 4 
+            result = [ 0 0 0 0 0 ];
+        case 5 
+            result = [ 0 0 1 1 ];
+        case 6 
+            result = [ 0 0 1 0 ];
+        case 7 
+            result = [ 1 1 0 ];
+        case 8 
+            result = [ 1 1 1 ];
+        case 9 
+            result = [ 1 0 1 ];
+        case 10 
+            result = [ 0 0 0 1 ];
+        case 11 
+            result = [ 0 1 1 ];
+        case 12
+            result = [ 0 0 0 0 1 ];
+    end
+end
+\end{lstlisting}
+
+\noindent The \texttt{shannon\_fano\_encoding} function takes the \texttt{symbol\_sequence} as input and encodes it symbol-by-symbol using the aforementioned \texttt{encode\_symbol} function.
+
+\begin{lstlisting}
+function encoded_sequence = shannon_fano_encoding(symbol_sequence)
+    encoded_sequence = [];
+    
+    % Iterate through the symbol sequence and encode each symbol
+    for i = 1:length(symbol_sequence)
+        encoded_sequence = [encoded_sequence, encode_symbol(symbol_sequence(i))];
+    end
+end
+\end{lstlisting}
+
+\subsection{Shannon-Fano decoding}
+The decoding algorithm performs the exact reverse operation of the encoding algorithm. Sure enough, there is the \texttt{decode\_symbol} function which translates the binary sequence into its respective symbol.
+\begin{lstlisting}
+function symbol = decode_symbol(code)
+    % Use a switch statement to check each possible code and return the corresponding symbol
+    switch code
+        case '[1 0 0]'
+            symbol = 1;
+        case '[0 1 0 0]'
+            symbol = 2;
+        case '[0 1 0 1]'
+            symbol = 3;
+        case '[0 0 0 0 0]'
+            symbol = 4;
+        case '[0 0 1 1]'
+            symbol = 5;
+        case '[0 0 1 0]'
+            symbol = 6;
+        case '[1 1 0]'
+            symbol = 7;
+        case '[1 1 1]'
+            symbol = 8;
+        case '[1 0 1]'
+            symbol = 9;
+        case '[0 0 0 1]'
+            symbol = 10;
+        case '[0 1 1]'
+            symbol = 11;
+        case '[0 0 0 0 1]'
+            symbol = 12;
+        otherwise
+            symbol = []; % Return empty if the code does not match any known code
+    end
+end
+\end{lstlisting}
+
+\noindent This function is used in the \texttt{shannon\_fano\_decoding} function wich performs the decoding of the input \texttt{encoded\_sequence}. The body of the function is a little more complicated than the encoding function because the length of the encoded symbol is not fixed - it can be 3, 4 or 5 - and, as such, every time a new symbol is read from the decoded data, a check should be done to understand if the symbol can be decoded or not. 
+
+\begin{lstlisting}
+function decoded_sequence = shannon_fano_decoding(encoded_sequence)
+    decoded_sequence = [];
+    
+    % Iterate through the encoded sequence and decode each symbol
+    current_code = [];
+    for i = 1:length(encoded_sequence)
+        current_code = [current_code, encoded_sequence(i)];
+        
+        % Check if the current code matches any known code
+        symbol = decode_symbol(string(mat2str(current_code)));
+        
+        % If a symbol is found, add it to the decoded sequence and reset the current code
+        if ~isempty(symbol)
+            decoded_sequence = [decoded_sequence, symbol];
+            current_code = [];
+        end
+    end
+end
+\end{lstlisting}
