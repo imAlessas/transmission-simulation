@@ -23,11 +23,12 @@ jobs:
             - name: Set up Git
               run: |
                 git config user.email "actions@github.com"
-                git config user.name "GitHub Actions
+                git config user.name "GitHub Actions"
+                base_branch=$(echo "${GITHUB_REF#refs/heads/}")
                 git remote add origin https://imAlessas:${{ secrets.PAT_TOKEN }}@github.com/imAlessas/transmission-simulation.git
 
             - name: Commit and push changes
               run: |
                 git add main.pdf
                 git commit -m "Move main.pdf to root folder"
-                git push origin doc
+                git push origin $base_branch
