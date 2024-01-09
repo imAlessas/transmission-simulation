@@ -1,19 +1,21 @@
+# Ignore README.pdf file
 README.pdf
 
+# Ignore Visual Studio Code configuration files
 .vscode
+# Ignore the 'tmp' directory inside the 'src' directory
 src/tmp
 
-main.aux
-
+# Ignore LaTeX files generated during compilation
 main.fdb_latexmk
 main.fls
 main.log
 main.out
 main.synctex.gz
 main.toc
-main.asv
 main.tdo
 main.lol
+main.aux
 
-
+# Ignore temporary file utilized to store the raw results
 doc/results.txt
