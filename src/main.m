@@ -25,6 +25,7 @@ TAU = 60e-9; % symbol duration time, [s]
 SNR = 8.1; % Signal-to-Noise-Ration, [dB]
 % Source Code: Shannon-Fano
 % Error correction code: Cyclic
+generation_polynomial = [1 0 0 1 0 1]; % z^5 + z^2 + z^0
 CODEWORD_LENGTH = 31; % m
 % 
 F_0 = 2.5e+9; % carrier frequency [Hz]
