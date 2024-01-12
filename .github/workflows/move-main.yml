@@ -1,6 +1,9 @@
-name: Move src/main.pdf to root
+name: Move doc/main.pdf to root
 
-on: [push]
+on:
+  push:
+    branches:
+      - doc
 
 permissions:
     contents: write
