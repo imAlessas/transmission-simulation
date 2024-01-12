@@ -1,4 +1,4 @@
-function [encDt,CntSym] = hamming_encoding(binDt,m,k)
+function [encoded_data, CntSym] = hamming_encoding(binDt, m, k)
 % The function calculates Hamming group (m,k) encoder output in matrix form 
 % for multiple data blocks.
 % Input:
@@ -18,4 +18,4 @@ EncMtx = ...
 
 % Calculate control symbol values 
 % Use rem() function to find modulo 2 sum as a remainder of division by 2
-encDt = rem(binDt * EncMtx,2);   % Use matrix multiplication to improve performance
+encoded_data = rem(binDt * EncMtx,2);   % Use matrix multiplication to improve performance
