@@ -20,7 +20,6 @@ jobs:
               run: |
                 if [ -f doc/main.pdf ]; then
                 mv doc/main.pdf main.pdf
-                rm doc/main.pdf
                 fi
 
             - name: Set up Git
@@ -31,6 +30,6 @@ jobs:
                 
             - name: Commit and push changes
               run: |
-                git add main.pdf
+                git add --all
                 git commit -m "Move main.pdf to root folder"
                 git push origin $base_branch
