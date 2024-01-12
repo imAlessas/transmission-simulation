@@ -20,6 +20,7 @@ jobs:
               run: |
                 if [ -f doc/main.pdf ]; then
                 mv doc/main.pdf main.pdf
+                rm doc/main.pdf
                 fi
 
             - name: Set up Git
