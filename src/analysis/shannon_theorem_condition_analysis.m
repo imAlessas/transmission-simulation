@@ -1,4 +1,4 @@
-% Analysis of Shannon theorem's condition
+% Analysis of Shannon theorem's condition (Task 4)
 % YT: https://www.youtube.com/watch?v=js9iRBYVLqs
 
 task(4);
@@ -26,4 +26,12 @@ show(RESULT, C_chan);
 % than the channel capacity with noise: this means that it is possible to
 % find a coding approach that will recover the errors. If the SNR would've
 % been lower (like 5) the shannon theorem was not verified
-show(RESULT, R < C_chan, 'R < C_chan'); 
+show(RESULT, R < C_chan, 'R < C_chan');
+
+if R < C_chan
+    fprintf("Shannon's Theorem condition is fulfilled.\nConsequently, it is possible to find a \n" + ...
+        "coding approach that will recover the errors\n that occurred during the transmission. \n" + ...
+        "If the SNR value was, hypothetically, lower,\n there was a chance that R > C_chan\n" + ...
+        " would've translated into the unpossibility\n of finding an error-correcting code for\n" + ...
+        " the transmission.");
+end
