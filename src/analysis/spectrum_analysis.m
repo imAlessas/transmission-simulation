@@ -1,4 +1,4 @@
-% Analysis of BPSK spectrum
+% Analysis of BPSK spectrum (Task 7)
 % YT: https://www.youtube.com/watch?v=Nq28LAZDURI
 
 task(7);

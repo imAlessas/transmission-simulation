@@ -1,4 +1,4 @@
-% Analysis of Probability of > 2 errors occurring
+% Analysis of Probability of > 2 errors occurring (Task 8)
 % YT: https://www.youtube.com/watch?v=js9iRBYVLqs
 
 task(8);
