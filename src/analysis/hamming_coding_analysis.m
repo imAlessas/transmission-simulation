@@ -1,70 +1,169 @@
 % Analysis of Cyclic Hamming Encoding (Task 6)
 
+task(6);
+
+% Initialize SNR vector
+SNR_vector = 0 : 1/2 : 15; 
 
 
-% photo in gallery, date: 11/12/23
+% Generation of binary sequence
 
-SNR_vector = 0 : 1/2 : 15;
+if GENERATE_NEW_SEQUENCE
+    N = 1e4; % number of bits to be sent
+    N = floor(N/k)*k; % match information block size
+    binary_sequence = randi(2, 1, N) - 1; 
+else
+    binary_sequence = padded_encoded_sequence;
+    N = length(padded_encoded_sequence);
+end
 
-% error correcting code parameters
-r = ceil(log2(codeword_length + 1));
-k = codeword_length - r;
+show(DEBUG, binary_sequence);
+show(DEBUG, N);
 
-% Generation of binary data
-N = 1e4; % number of bits to be sent
-N = floor(N/k)*k; % match information block size
-binary_sequence = randi(2, 1, N) - 1; 
+
 
 
 % Generate carrier signal
-delta_t = tau / samples_per_symbol; % time step
-t = 0: delta_t: tau - delta_t; % time interval for one symbol
-s0 = sin(2 * pi * f0 * t); % Carrier signal
-Eb = dot(s0, s0); % sum(s0.^2) // energy per symbol
-SNR = 8.1; % SNR in course project
+
+% Define the time-step
+delta_t = tau / samples_per_symbol;
+
+% Time intervals for one symbol
+time_intervals = 0: delta_t: tau - delta_t;
+
+% Create the carrier signal
+carrier_signal = sin(2 * pi * f0 * time_intervals); % Carrier signal
+
+% Calculate the energy per symbul
+Eb = dot(carrier_signal, carrier_signal);
+
+
 
 
 % Hamming encoding
-binary_data = reshape(binary_sequence, k, N / k)'; % Matrix of information blocks to be coded
-encoded_data = encHamming(binary_data, codeword_length, k); % encode data
-encoded_data = encoded_data';
-encoded_data = encoded_data(:)'; % unwrap data into signle row
+
+% Create the matrix for the Hamming-encoding algorithm
+binary_matrix = reshape(binary_sequence, k, N / k)';
+show(DEBUG, binary_matrix);
+
+% Hamming-encode the matrix
+hamming_encoded_matrix = hamming_encoding(binary_matrix, codeword_length, k, generation_polynomial); % encode data
+hamming_encoded_matrix = hamming_encoded_matrix';
+show(DEBUG, hamming_encoded_matrix);
+
+% Unwrap the matrix into a single row
+hamming_encoded_sequence = hamming_encoded_matrix(:)';
+show(DEBUG, hamming_encoded_sequence);
+
+% Update the number of bits
 M = N;
-N = length(encoded_data); % update number of bits
+N = length(hamming_encoded_sequence);
+show(DEBUG, M);
+show(DEBUG, N)
+
+% Modulate the sequence with BPSK
+BPSK_signal = kron(-2 * hamming_encoded_sequence + 1, carrier_signal);
+
+
 
 % Generate noise power
-EbN0 = 10.^(SNR_vector / 10); % Linear SNR
-N0 = Eb./EbN0; % noise spectral power density
+
+% Reversed SNR formula
+EbN0 = 10.^(SNR_vector / 10);
+
+% Obtain noise spectral power density
+N0 = Eb./EbN0;
+
+% Calculate sigma for BPSK
 sigma = sqrt(N0 / 2);
 
-for i = length(SNR_vector)
-    noise = sigma(i) * randn(1, N * samples_per_symbol); % noise in AWGN channel
-    signal_with_noise = sTx + noise; % add noise in transmitted channel;
 
-    % correltaion reciever
-    sliced_signal_with_noise = reshape(signal_with_noise, samples_per_symbol, N); % slice recieved signal into segments in each column
-    demDt = s0 * sliced_signal_with_noise < 0;
 
-    % Check number of erros and estimate probability
-    NumErr = sum(demDt ~= encoded_data);
-    BERval(i) = NumErr / N;
+
+% Prepare the vectors for the for-loop
+BER_no_hamming = 1 : length(SNR_vector);
+BER_with_hamming = 1 : length(SNR_vector);
+
+for i = 1 : length(SNR_vector)
+    % Calculate the GWN for a specific SNR value
+    noise = sigma(i) * randn(1, N * samples_per_symbol);
+
+    % Add the noise
+    signal_with_noise = BPSK_signal + noise; % add noise in transmitted channel;
+
+
+
+    % Use CORRELATION RECEIVER to detect symbols
+
+    % Slice recieved signal into segments in each column
+    sliced_signal_with_noise = reshape(signal_with_noise, samples_per_symbol, N);
+
+    % Detect the signal with the BPSK threshold
+    detected_signal = carrier_signal * sliced_signal_with_noise < 0;
+
     
-    % Hamming decoding
-    codeword = reshape(demDt, codeword_length, N/codeword_length)'; % codeword to be decoded
-    decoded_data = hamming_decoding(binary_data, codeword_length, k, generation_polynomial); % encode data
-    decoded_data = decoded_data';
-    decoded_data = decoded_data(:)'; % unwrap dato into signle row
-    NumErr1 = sum (decoded_data ~= binary_sequence);
-    BERval1(i) = NumErr1/M;
-    fprintf('BPSK : SNR %f, Uncoded BER: %f, Coded BER: %f\n', SNR_vector(i), BERval(i), BERval1(i));
+    errors_number_no_hamming = sum(detected_signal ~= hamming_encoded_sequence);
+
+    % Calculate BER value
+    BER_no_hamming(i) = errors_number_no_hamming / N;
+    
+
+    % Reshape the sequence into a matrix, every row is a codeword
+    detected_sequence_matrix = reshape(detected_signal, codeword_length, N/codeword_length)';
+    
+    % Perform Hamming decoding
+    decoded_data_matrix = hamming_decoding(detected_sequence_matrix, codeword_length, k, generation_polynomial); % encode data
+    decoded_data_matrix = decoded_data_matrix';
+
+    % Unwrap the matrix into a sequence
+    decoded_data_sequence = decoded_data_matrix(:)'; 
+
+    % Check number of erros
+    errors_number_with_hamming = sum (decoded_data_sequence ~= binary_sequence);
+
+    % Calculate BER value
+    BER_with_hamming(i) = errors_number_with_hamming/M;
+
+    % Displays resulst
+    if DEBUG
+        fprintf("SNR value: %f\n", SNR_vector(i));
+        fprintf("   BER without coduing: %f\n", BER_no_hamming(i));
+        fprintf("   BER with coduing:    %f\n", BER_with_hamming(i));
+        fprintf("\n");
+    end
+
 end
 
-EbN3 = 10.^(SNRval / 10); % Linear SNR
-x = sqrt(EbN3 * 2);
-Perr = 1 - 1/2 * (1 + erf(x / sqrt(2)));
+% Calculate Theoretical BER
+x = sqrt(EbN0 * 2);
+error_propability = 1 - 1/2 * (1 + erf(x / sqrt(2)));
 
-semilogy(SNR_vector, BERval, "b"), grid on, xlabel("SNR, dB"), ylabel("BER"), hold on;
-semilogy(SNR_vector, BERval1, "r"), grid on, xlabel("SNR, dB"), ylabel("BER"), hold off;
+
+
+if RESULT && PLOTS
+    % creates figure and settings
+    f = figure(1);
+    f.Name = 'Analysis of BER curve';
+    f.NumberTitle = 'off';
+    f.Position = [450, 100, 700, 600];
+    
+    % Draw plot without Hamming code
+    semilogy(SNR_vector, BER_no_hamming, "b"), grid on;
+
+    % Draw plot with Hamming code
+    hold on, semilogy(SNR_vector, BER_with_hamming, "r"), hold off;
+
+    % Draw theoretical plot
+    hold on, semilogy(SNR_vector, error_propability, 'm'), hold off;
+
+    % Draw SNR project value
+    hold on, plot([SNR SNR], [1e-4, 1e-1], 'g--'), hold off;
+
+    
+    xlabel("Signal-to-Noise Ratio, [dB]"), ylabel("Bit Error Rate"); % lables
+    ylim([1e-4, 1e-1]), xlim([0, 10]); % limits
+    legend('Uncoded', 'Coded', 'Theoretical', 'Given SNR value'); % legend
+end
 
 
 
