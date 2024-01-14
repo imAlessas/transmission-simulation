@@ -3,7 +3,7 @@
 
 task(4);
 
-C = 1 / TAU; % noiseless channel capacity
+C = 1 / tau; % noiseless channel capacity
 show(DEBUG, C);
 show(RESULT, R < C, 'R < C');
 

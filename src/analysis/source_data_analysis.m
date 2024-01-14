@@ -6,11 +6,11 @@ task(2);
 
 
 % Calculate source entropy
-H = - dot(PROBABILITY_VECTOR, log2(PROBABILITY_VECTOR)); % sum(a .* b) = a * b' = dot(a,b)
+H = - dot(probability_vector, log2(probability_vector)); % sum(a .* b) = a * b' = dot(a,b)
 show(RESULT, H);
 
 % Number of symbols in the alphabet
-N  = length(PROBABILITY_VECTOR);
+N  = length(probability_vector);
 show(DEBUG, N);
 
 % Maximum source entropy

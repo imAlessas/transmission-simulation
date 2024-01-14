@@ -4,9 +4,9 @@
 task(3);
 
 % Probability vector sorted in descending order
-P = sort(PROBABILITY_VECTOR, 'descend'); % Probability vector sorted from highest to lowest
-show(RESULT, P', 'p'); % Display the sorted probability vector
-show(DEBUG, sum(P), 'sum(p)'); % Display the sum of probabilities
+sorted_prob_vector = sort(probability_vector, 'descend'); % Probability vector sorted from highest to lowest
+show(RESULT, sorted_prob_vector', 'p'); % Display the sorted probability vector
+show(DEBUG, sum(sorted_prob_vector), 'sum(p)'); % Display the sum of probabilities
 
 
 % Values obtained with Shannon-Fano code algorithm
@@ -16,13 +16,13 @@ m_1 = [3, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 0];
 show(DEBUG, m == (m_0 + m_1), 'm == (m_0 + m_1)'); % Check if m equals the sum of m_0 and m_1
 
 % Calculate Averages
-m_average = dot(P, m); % Average codeword length
+m_average = dot(sorted_prob_vector, m); % Average codeword length
 show(RESULT, m_average);
 
-m_0_average = dot(P, m_0); % Average number of 0 symbols
+m_0_average = dot(sorted_prob_vector, m_0); % Average number of 0 symbols
 show(DEBUG, m_0_average);
 
-m_1_average = dot(P, m_1); % Average number of 1 symbols
+m_1_average = dot(sorted_prob_vector, m_1); % Average number of 1 symbols
 show(DEBUG, m_1_average);
 
 % Calculate Probabilities
