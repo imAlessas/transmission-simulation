@@ -216,13 +216,7 @@ end
 
 
 % = = = = = = = = = = = = = = = = = = = =
-% Perform Hamming-decoding
-
-
-
-
-% = = = = = = = = = = = = = = = = = = = =
-% Perform error correction
+% Perform Hamming-decoding and error correction
 
 
 
