@@ -42,7 +42,7 @@ time_intervals = 0: delta_t: tau - delta_t;
 % Create the carrier signal
 carrier_signal = sin(2 * pi * f0 * time_intervals); % Carrier signal
 
-% Calculate the energy per symbul
+% Calculate the energy per symbol
 Eb = dot(carrier_signal, carrier_signal);
 
 

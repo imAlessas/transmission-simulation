@@ -26,7 +26,7 @@ for i = 1 : length(result)
     fprintf('Test #%i', i);
 
     % Generate a random number N for the length of the symbol sequence
-    N = k * randi(1e6, 1);
+    N = k * randi(1e5, 1);
 
     % Generate a random binary symbol sequence
     symbol_sequence = randi(2, 1, N) - 1;
