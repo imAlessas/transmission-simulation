@@ -39,7 +39,7 @@ H_bin = -P_0 * log2(P_0) - P_1 * log2(P_1); % Binary source entropy after coding
 show(RESULT, H_bin);
 
 % Calculate Data Rate
-R = H * (m_average * TAU) ^ (-1); % Data rate
+R = H * (m_average * tau) ^ (-1); % Data rate
 show(RESULT, R);
 
 % Calculate Compression Ratio

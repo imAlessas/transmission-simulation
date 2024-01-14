@@ -10,7 +10,7 @@ SNR_vector = 0 : 1/2 : 15;
 
 if GENERATE_NEW_SEQUENCE
     N = 1e4; % number of bits to be sent
-    N = floor(N/k)*k; % match information block size
+    N = floor(N / k) * k; % match information block size
     binary_sequence = randi(2, 1, N) - 1; 
 else
     binary_sequence = padded_encoded_sequence;
@@ -125,7 +125,7 @@ for i = 1 : length(SNR_vector)
     BER_with_hamming(i) = errors_number_with_hamming/M;
 
     % Displays resulst
-    if DEBUG
+    if RESULT
         fprintf("SNR value: %f\n", SNR_vector(i));
         fprintf("   BER without coduing: %f\n", BER_no_hamming(i));
         fprintf("   BER with coduing:    %f\n", BER_with_hamming(i));
