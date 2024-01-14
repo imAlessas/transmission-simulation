@@ -166,6 +166,11 @@ if SIMULATION
 end
 
 
+% = = = = = = = = = = = = = = = = = = = =
+% Perform modulation
+
+
+
 
 % = = = = = = = = Task 7 = = = = = = = =
 % Analysis of BPSK spectrum
@@ -182,6 +187,73 @@ end
 if ANALYSIS
     run("analysis\over_two_errors_prob_analysis.m");
 end
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform Gaussion White Noise addition
+
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform detection
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform descrambling
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform deinterleaving
+
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform Hamming-decoding
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform error correction
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Remove padding bits
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Perform Shannon-Fano decoding
+
+
+
+
+% = = = = = = = = = = = = = = = = = = = =
+% Correctness checkig
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
