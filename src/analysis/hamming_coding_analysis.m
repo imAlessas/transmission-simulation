@@ -8,13 +8,21 @@ SNR_vector = 0 : 1/2 : 15;
 
 % Generation of binary sequence
 
-if GENERATE_NEW_SEQUENCE
+if ~GENERATE_NEW_SEQUENCE
+    if ~SIMULATION & ANALYSIS
+        fprintf("Error: Unable to use the current sequence because SIMULATION flag is disable.\nTry enabling it.\nA new sequence will be generated from scratch.\n\n\n")
+        N = 1e4; % number of bits to be sent
+        N = floor(N / k) * k; % match information block size
+        binary_sequence = randi(2, 1, N) - 1; 
+    else
+        binary_sequence = padded_encoded_sequence;
+        N = length(padded_encoded_sequence);
+    end
+    
+else
     N = 1e4; % number of bits to be sent
     N = floor(N / k) * k; % match information block size
-    binary_sequence = randi(2, 1, N) - 1; 
-else
-    binary_sequence = padded_encoded_sequence;
-    N = length(padded_encoded_sequence);
+    binary_sequence = randi(2, 1, N) - 1;
 end
 
 show(DEBUG, binary_sequence);
@@ -125,7 +133,7 @@ for i = 1 : length(SNR_vector)
     BER_with_hamming(i) = errors_number_with_hamming/M;
 
     % Displays resulst
-    if RESULT
+    if DEBUG
         fprintf("SNR value: %f\n", SNR_vector(i));
         fprintf("   BER without coduing: %f\n", BER_no_hamming(i));
         fprintf("   BER with coduing:    %f\n", BER_with_hamming(i));
