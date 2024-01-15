@@ -10,13 +10,14 @@ SNR_vector = 0 : 1/2 : 15;
 
 if ~GENERATE_NEW_SEQUENCE
     if ~SIMULATION & ANALYSIS
-        fprintf("Error: Unable to use the current sequence because SIMULATION flag is disable.\nTry enabling it.\nA new sequence will be generated from scratch.\n\n\n")
+        fprintf("Error: Unable to use the current sequence because SIMULATION flag is disable.\n" + ...
+            "Try enabling it.\nA new sequence will be generated from scratch.\n\n\n")
         N = 1e4; % number of bits to be sent
         N = floor(N / k) * k; % match information block size
         binary_sequence = randi(2, 1, N) - 1; 
     else
-        binary_sequence = padded_encoded_sequence;
-        N = length(padded_encoded_sequence);
+        binary_sequence = padded_sequence;
+        N = length(padded_sequence);
     end
     
 else
