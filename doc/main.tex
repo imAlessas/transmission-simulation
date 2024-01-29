@@ -7,8 +7,13 @@
 \input{utils/settings.tex}
 
 \title{\vspace{160px} \textbf{\huge{Analysis and simulation of a digital transmission system}}}
-\author{\Large{Alessandro Trigolo}}
+\author{\Large{\href{https://github.com/imAlessas}{Alessandro Trigolo}}}
 \date{2023/2024}
+
+
+\def\analysis{0}
+\def\simulation{1}
+
 
 
 
@@ -24,41 +29,53 @@
 
 
 
+
+
+
 \input{chapters/introduction.tex}
 
+\if\analysis1
+    \newpage \part{Analysis}
 
-\newpage \part{Analysis}
+    \input{chapters/analysis/source-data.tex} % Task 2
 
-\input{chapters/analysis/source-data.tex} % Task 2
+    \input{chapters/analysis/source-encoding.tex} % Task 3
 
-\input{chapters/analysis/source-encoding.tex} % Task 3
+    \input{chapters/analysis/shannon-theorem.tex} % Task 4
 
-\input{chapters/analysis/shannon-theorem.tex} % Task 4
 
-% 
 
-\input{chapters/analysis/raw-results.tex} % Summary
+    \input{chapters/analysis/raw-results.tex} % Summary
+\fi
+
+
+
 
 
 % ==================================================
 \setcounter{section}{0}
 
-\newpage \part{Simulation}
-
-\input{chapters/simulation/data-generation.tex}
-
-\input{chapters/simulation/source-coding.tex}
-
-\input{chapters/simulation/channel-coding.tex}
-
-\input{chapters/simulation/interleaving.tex}
-
-\input{chapters/simulation/scrambling.tex}
-
-\input{chapters/simulation/modulation.tex}
 
 
+\if\simulation1
+    \newpage \part{Simulation}
 
+    \input{chapters/simulation/data-generation.tex}
+
+    \input{chapters/simulation/source-coding.tex}
+
+    \input{chapters/simulation/padding-bits.tex}
+
+    \input{chapters/simulation/channel-coding.tex}
+
+    \input{chapters/simulation/interleaving.tex}
+
+    \input{chapters/simulation/scrambling.tex}
+
+    \input{chapters/simulation/modulation.tex}
+
+    \input{chapters/simulation/test.tex}
+\fi
 
 
 \end{document}
