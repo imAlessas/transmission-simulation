@@ -1,8 +1,8 @@
-\vspace{40px} \section{Interleaving and deinterleaving} \label{interleaving}
+\vspace{40px} \section{Interleaving and deinterleaving} \label{interleaving-process}
 The interleaving and deinterleaving process is needed to prevent group errors, also called \textsl{burst errors}. This is achieved by deterministically mixing the sequence before the transmission and recomposing it by performing the initial algorithm in reverse. In such a way, if during the communication a burst error happens when the sequence is restored in the initial order, the possibility of having these types of errors drastically decreases. Noticeably this algorithm can be performed multiple times in the same sequence to minimize the probability of burst errors.
 
 
-\subsection{Interleaving}
+\subsection{Interleaving}\label{interleaving}
 The \texttt{interleaving} function uses a matrix transpose algorithm to mix the sequence. Noticeably the unmixed sequence is compressed into the \texttt{interleaver\_matrix}: the first 31 symbols of the sequence are inserted into the first column, the second 31 symbols are inserted into the second column and so on. After filling the matrix, to create the interleaved sequence it is necessary to read the matrix through the rows: this is the purpose of the second \texttt{for} loop.
 
 \begin{lstlisting}
@@ -37,7 +37,7 @@ function mixed_sequence = interleaving(unmixed_sequence)
 end
 \end{lstlisting}
 
-\subsection{Deinterleaving}
+\subsection{Deinterleaving}\label{deinterleaving}
 The \texttt{deinterleaving} function is the exact opposite of the interleaving function. In this case, the sequence is inserted into the rows of the \texttt{deinterleaver\_matrix} and then read through the column. Reasonably the body of the function is very similar to its reverse function.
 
 \begin{lstlisting}

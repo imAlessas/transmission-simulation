@@ -10,14 +10,14 @@
         % Source
         \node[Step] (Source) {\textbf{Source}};
         \node[Step] (FormDevSou) [below = of Source] {Formatting Device};
-        \node[Step] (SourceCoding) [below = of FormDevSou] {Source Coding};
-        \node[Step] (ChanCod) [below = of SourceCoding] {Channel Coding};
-        \node[Step] (Interleaving) [below = of ChanCod] {Interleaving};
-        \node[Step] (Scrambling) [below = of Interleaving] {Scrambling};
-        \node[Step] (Modulation) [below = of Scrambling] {Modulation};
+        \node[Step] (SourceCoding) [below = of FormDevSou] {\hyperref[source-coding]{Source Coding}};
+        \node[Step] (ChanCod) [below = of SourceCoding] {\hyperref[hamming-encoding]{Channel Coding}};
+        \node[Step] (Interleaving) [below = of ChanCod] {\hyperref[interleaving]{Interleaving}};
+        \node[Step] (Scrambling) [below = of Interleaving] {\hyperref[scrambling]{Scrambling}};
+        \node[Step] (Modulation) [below = of Scrambling] {\hyperref[modulation]{Modulation}};
 
         % Noise
-        \node[Noise] (Noise) [right = 2cm of Modulation] {Noise};
+        \node[Noise] (Noise) [right = 2cm of Modulation] {\hyperref[noise]{Noise}};
 
         % Message
         \node[Message] (Message) [right = 2cm of Source] {Message};
@@ -25,11 +25,11 @@
         % Destination
         \node[Step] (Destination) [right = 2cm of Message] {\textbf{Destination}};
         \node[Step] (FormDevDest) [below = of Destination] {Formatting Device};
-        \node[Step] (SourceDec) [below = of FormDevDest] {Source Decoding};
-        \node[Step] (ChanDec) [below = of SourceDec] {Channel Decoding};
-        \node[Step] (Deinterleaving) [below = of ChanDec] {Deinterleaving};
-        \node[Step] (Descrambling) [below = of Deinterleaving] {Descrambling};
-        \node[Step] (Demodulation) [below = of Descrambling] {Demodulation};
+        \node[Step] (SourceDec) [below = of FormDevDest] {\hyperref[source-decoding]{Source Decoding}};
+        \node[Step] (ChanDec) [below = of SourceDec] {\hyperref[hamming-decoding]{Channel Decoding}};
+        \node[Step] (Deinterleaving) [below = of ChanDec] {\hyperref[deinterleaving]{Deinterleaving}};
+        \node[Step] (Descrambling) [below = of Deinterleaving] {\hyperref[descrambling]{Descrambling}};
+        \node[Step] (Demodulation) [below = of Descrambling] {\hyperref[demodulation]{Demodulation}};
         
 
 

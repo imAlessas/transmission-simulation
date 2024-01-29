@@ -1,5 +1,5 @@
 \vspace{40px} \section{Scrambling and descrambling}
-The scrambling process helps with the synchronization between the sender machine and the receiver device. More precisely, when there is a long sequence of \texttt{"0"} or \texttt{"1"} symbols it becomes rather difficult to understand how many of them are being transmitted. For this purpose, before modulating and transmitting the signal, is extremely helpful to perform a logical \texttt{XOR} to every codeword with a pseudo-random sequence, called \texttt{scambling\_key}. This is the purpose of the \texttt{scrambling} function: it applies an exclusive \texttt{OR} bitwise with a key that is known both from the source and the destination.
+The scrambling process helps with the synchronization between the sender machine and the receiver device. More precisely, when there is a long sequence of \texttt{"0"} or \texttt{"1"} symbols it becomes rather difficult to understand how many of them are being transmitted. \label{scrambling} For this purpose, before modulating and transmitting the signal, is extremely helpful to perform a logical \texttt{XOR} to every codeword with a pseudo-random sequence, called \texttt{scambling\_key}. This is the purpose of the \texttt{scrambling} function: it applies an exclusive \texttt{OR} bitwise with a key that is known both from the source and the destination.
 
 \begin{lstlisting}
 function scrambled_sequence = scrambling(unscrambled_sequence, scrambler_key)
@@ -23,7 +23,7 @@ function scrambled_sequence = scrambling(unscrambled_sequence, scrambler_key)
 end
 \end{lstlisting}
 
-\noindent There is no need to create the \texttt{descrambling} function because the \texttt{XOR} operation is cyclical: performing this operation two times to a sequence of binary numbers will return the initial sequence. In this case, the function has been created just for better clarity and readability.
+\label{descrambling}\noindent There is no need to create the \texttt{descrambling} function because the \texttt{XOR} operation is cyclical: performing this operation two times to a sequence of binary numbers will return the initial sequence. In this case, the function has been created just for better clarity and readability.
 
 \begin{lstlisting}
 function unscrambled_sequence = descrambling(scrambled_sequence, scrambler_key)

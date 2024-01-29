@@ -1,7 +1,7 @@
 \vspace{40px} \section{Source coding and decoding}
 The second step is to implement an algorithm that will encode and decode the newly generated symbols using the Shannon-Fano algorithm. The two algorithms are based on the results obtained and displayed in the \texttt{Code} column of the \hyperref[tab:shannon-fano]{table} in the \hyperref[source-encoding]{"Source encoding" section}.
 
-\subsection{Shannon-Fano encoding}
+\subsection{Shannon-Fano encoding}\label{source-coding}
 The Shannon-Fano encoding can be achieved by using a very simple switch. Sure enough, the helper function \texttt{encode\_symbol} displayed below associates with every symbol in the alphabet and its respective codeword.
 
 \begin{lstlisting}
@@ -49,7 +49,7 @@ function encoded_sequence = shannon_fano_encoding(symbol_sequence)
 end
 \end{lstlisting}
 
-\subsection{Shannon-Fano decoding}
+\subsection{Shannon-Fano decoding}\label{source-decoding}
 The decoding algorithm performs the exact reverse operation of the encoding algorithm. Sure enough, there is the \texttt{decode\_symbol} function which translates the binary sequence into its respective symbol.
 \begin{lstlisting}
 function symbol = decode_symbol(code)
