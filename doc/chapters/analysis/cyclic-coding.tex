@@ -1,0 +1,89 @@
+\vspace{40px} \section{Error correction}
+The error correction analysis is important to understand how powerful and yet dangerous the error correction codes are. In this document, the analysis focuses on the \textsl{cyclic Hamming code} error correction properties even though the conclusions are still valid for the \textsl{group Hamming code} (both systematic and non-systematic). 
+
+Before analyzing the error correction code, it is necessary to properly implement it. The first thing to do is to generate a binary sequence and the encoding and decoding matrix. To do so it has been used the \texttt{cyclgen} function which should be imported from the communication package as follows: \texttt{import communications.*}. These steps are summarized in the code snipped below.
+
+\begin{lstlisting} 
+    % generate a sequence of k binary symbols
+    binary_sequence =  randi(2, 1, k) - 1;
+
+    % generate decoding and encoding matrix
+    [cyclic_decoding_matrix, cyclic_encoding_matrix] = cyclgen(codeword_length, generation_polynomial);
+
+    % reorder the matrixes
+    % [6 -> 31, 1 ->]
+    reorder = [6:codeword_length, 1:5];
+
+    cyclic_encoding_matrix = cyclic_encoding_matrix (:, reorder); 
+
+    cyclic_decoding_matrix = (cyclic_decoding_matrix (:, reorder))'; 
+\end{lstlisting}
+
+\noindent One crucial thing to do is to redefine the associations between the syndrome values and the error position. The vector that is shown below is not random at all but it has been calculated using the algorithm shown in the chapter \ref{hamming-decoding} and the copy-pasted it. This vector is very important because if it is not defined the correction algorithm won't work at all but will increase the error rate.
+
+\begin{lstlisting} 
+    % Associates the syndrome to the bit.
+    % This vector has been calculated in the hamming_decoding function and copy-pasted here.
+    associations = [0 31 30 13 29 26 12 20 28 2 25 4 11 23 19 8 27 21 1 14 24 9 3 5 10 6 22 15 18 17 7 16];
+\end{lstlisting} 
+
+\noindent After setting up the error correction algorithm, it is possible to begin the analysis by encoding the codeword and studying the behavior of the cyclic Hamming code. Reasonably, by introducing no errors the decoded codeword is the same as the initial codeword.
+
+\begin{lstlisting} 
+    % encode the codeword
+    codeword = mod(binary_sequence * cyclic_encoding_matrix, 2);
+    initial_codeword = codeword;
+    
+    % decode without errors
+    syndrome_no_error = mod(codeword * cyclic_decoding_matrix, 2);
+\end{lstlisting}
+
+
+\subsection{One error}
+By introducing one error to a random position it is necessary to calculate the decimal syndrome value and then use the \texttt{associations} vector to detect and correct the error.
+\todo{Improve the description and add some example fo 1 and 2 errors}
+
+\begin{lstlisting}
+% introduce one error
+error_position = randi(31, 1);
+codeword(error_position) =~ codeword(error_position);
+
+codeword_one_error = codeword;
+
+% get the error syndrome
+syndrome_one_error = mod(codeword_one_error * cyclic_decoding_matrix, 2);
+
+% convert the syndrome into decimal
+syndrome_one_error_decimal = bin2dec(num2str(syndrome_one_error));
+
+% get the index of the wrong symbol
+wrong_symbol_position = associations(syndrome_one_error_decimal + 1);
+
+% correct the error
+codeword_one_error(wrong_symbol_position) = ~codeword_one_error(wrong_symbol_position);
+\end{lstlisting}
+
+
+\subsection{Two errors} \label{two-errors-correction}
+
+\begin{lstlisting}
+% introduce second error
+error_position = randi(31, 1);
+codeword(error_position) =~ codeword(error_position);
+
+codeword_two_errors = codeword;
+
+% get the error syndrome
+syndrome_two_errors = mod(codeword_two_errors * cyclic_decoding_matrix, 2);
+
+% convert the syndrome into decimal
+syndrome_two_errors_decimal = bin2dec(num2str(syndrome_two_errors));
+
+% get the index of the wrong symbol
+wrong_symbol_position = associations(syndrome_two_errors_decimal + 1);
+
+% correct the error
+codeword_two_errors(wrong_symbol_position) = ~codeword_two_errors(wrong_symbol_position);
+\end{lstlisting}
+
+
