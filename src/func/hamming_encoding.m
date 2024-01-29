@@ -1,14 +1,14 @@
 function encoded_data_matrix = hamming_encoding(binary_data_matrix, codeword_length, k, generation_polynomial)
-    % HAMMING_ENCODING performs Hamming encoding on a binary data matrix.
-    %
-    % INPUT:
-    %   binary_data_matrix:         Binary matrix containing k information symbols.
-    %   codeword_length:            Length of the codeword (total symbols per codeword).
-    %   k:                          Number of actual information symbols.
-    %   generation_polynomial:      Generator polynomial for Hamming cyclic encoding.
-    %
-    % OUTPUT:
-    %   encoded_data_matrix:               Matrix containing the encoded data symbols.
+% HAMMING_ENCODING performs Hamming encoding on a binary data matrix.
+%
+% INPUT:
+%   binary_data_matrix:         Binary matrix containing k information symbols.
+%   codeword_length:            Length of the codeword (total symbols per codeword).
+%   k:                          Number of actual information symbols.
+%   generation_polynomial:      Generator polynomial for Hamming cyclic encoding.
+%
+% OUTPUT:
+%   encoded_data_matrix:               Matrix containing the encoded data symbols.
     
     % Calculate the number of redundant symbols (parity symbols)
     r = codeword_length - k;
