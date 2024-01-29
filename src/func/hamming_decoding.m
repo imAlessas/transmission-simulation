@@ -1,4 +1,16 @@
 function decoded_data_matrix = hamming_decoding(encoded_data_matrix, codeword_length, k, generation_polynomial)
+% HAMMING_DECODING performs decoding of Hamming group (m, k) codewords specified in
+% matrix form for multiple codewords.
+%
+% INPUT:
+%   encoded_data_matrix:        Matrix containing encoded Hamming codewords.
+%   codeword_length:            Length of the codeword (total symbols per codeword).
+%   k:                          Number of actual information symbols.
+%   generation_polynomial:      Generator polynomial for Hamming encoding.
+%
+% OUTPUT:
+%   decoded_data:               Matrix containing decoded and corrected information blocks.
+
     % Determine the number of control symbols
     r = codeword_length - k;
     
