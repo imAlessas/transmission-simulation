@@ -1,0 +1,72 @@
+\vspace{40px} \section{Padding bits}
+One important thing to notice is that the cyclic Hamming encoding is that the algorithm requires an input matrix whose number of elements is a divisor of the information symbols, in this case, 26. The problem is that it is not granted that the generated and encoded sequence is a perfect divisor of 26, so it is crucial to add some padding bits to round the length of the sequence to the closest bigger multiplier of 26. The idea behind this process is to count how many padding bits are needed to round the length of the sequence and store the value into a 5-bit sequence containing the binary number of bits to remove during the reception phase.
+
+
+\subsection{Add padding bits}
+To add the padding bits, the first thing to know is how many padding bits are needed to round the length of the sequence. The purpose of the following helper function is to calculate the number of bits to add. The important thing to notice about the function is the meaning behind the \texttt{storage\_bits} variable: its value is 5 because with five bits it is possible to store the number between 0 and 31, which is more than the maximum number of padding bits. This is because the worst-case scenario is when the last row of the matrix has 22 elements, meaning that it is not possible to insert the 5-bit sequence and it is necessary to add a new row just to insert the sequence. The new row will have 26 symbols which, in addition to the 4 symbols of the previous row will add to 30, which can be represented with a 5-bit sequence.
+
+\begin{lstlisting}
+function number_of_padding_bits = count_padding_bits(compact_sequence)
+
+    % Define the number of bits reserved for storing the padding information
+    storage_bits = 5;
+
+    % Define the divisor used in determining the number of padding bits
+    divisor = 26;
+
+    % Calculate the number of padding bits required
+    number_of_padding_bits = divisor - rem(length(compact_sequence), divisor);
+
+    % Adjust the number of padding bits if it is less than the storage_bits
+    if number_of_padding_bits < storage_bits
+        number_of_padding_bits = number_of_padding_bits + divisor;
+    end
+end
+\end{lstlisting}
+
+\noindent After obtaining the number of bits to add, the only thing to do is to fill the sequence and at the end incorporate the binary sequence containing the number of added bits as it is shown in the \texttt{add\_padding\_bits} function below.
+
+\begin{lstlisting}
+function padded_sequence = add_padding_bits(compact_sequence)
+    % Determine the number of bits needed for padding
+    bits_to_pad = count_padding_bits(compact_sequence);
+
+    % Convert the number of bits to pad to binary representation
+    binary_padding_value = str2num(dec2bin(bits_to_pad, 5)')';
+
+    % Add padding bits to the end of the sequence
+    padded_sequence = [compact_sequence, zeros(1, bits_to_pad - 5), binary_padding_value];
+end
+\end{lstlisting}
+
+
+\subsection{Remove padding bits}
+On the other hand during the reception, the only thing to do is to get the last 5 symbols of the sequence and convert them into a decimal number, as shown in the \texttt{get\_padding\_bits} function below.
+
+\begin{lstlisting}
+function padding_bits = get_padding_bits(padded_sequence)
+    % Extract the last 5 bits from the padded sequence
+    bits = padded_sequence(end-4 : end);
+    
+    % Convert the binary representation of the bits to a string
+    str = '';
+    for i = 1 : length(bits)
+        str = append(str, num2str(bits(i)));
+    end
+    
+    % Convert the binary string to decimal to obtain the number of padding bits
+    padding_bits = bin2dec(str);
+end
+\end{lstlisting}
+
+\noindent After getting the number $n$ of padding bits added, the last step is to remove the last $n$ symbols of the sequence to get the original data.
+
+\begin{lstlisting}
+function compact_sequence = remove_padding_bits(padded_sequence)
+    % Call the get_padding_bits function to determine the number of padding bits
+    padding = get_padding_bits(padded_sequence);
+
+    % Remove the padding bits from the end of the sequence
+    compact_sequence = padded_sequence(1 : end - padding);
+end
+\end{lstlisting}
