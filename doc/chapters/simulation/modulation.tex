@@ -1,2 +1,52 @@
 \vspace{40px} \section{Modulation and noise}
+After translating, coding, mixing and changing the sequence it is finally time to simulate the signal transmission process. In this case, the Binary Phase Shift Keying has been utilized to modulate and demodulate the binary sequence. To create this type of signal, it is necessary to create the \texttt{carrier\_signal} which is a sine wave with the properties given in the \hyperref[initial-parameters]{initial parameters}. Then the carrier signal energy and its length are stored to calculate the Gaussian White Noise afterwards. The BPSK modulation is performed by creating and \textsl{NRZ} signal of the sequence and then using the \textit{Kronecker} product as shown below.
 
+\begin{lstlisting}
+    % Define the time-step
+    delta_t = tau / samples_per_symbol;
+    
+    % Time intervals for one symbol
+    time_intervals = 0: delta_t: tau - delta_t;
+    
+    % Create the carrier signal
+    carrier_signal = sin(2 * pi * f0 * time_intervals);
+    
+    % Calculate the energy per symbol
+    Eb = dot(carrier_signal, carrier_signal);
+    
+    % Save length of encoded sequence
+    N = length(binary_sequence);
+    
+    % Perform BPSK modulation
+    BPSK_signal = kron(-2 * binary_sequence + 1, carrier_signal);
+
+\end{lstlisting}
+
+\noindent To add the GWN is necessary to calculate the noise signal by reversing the SNR formula to obtain the noise spectral power density $N_0$. With this value, it is possible to obtain the standard deviation, $\sigma$ and then generate the \texttt{noise\_signal} which will be added to the modulated signal to compute the \texttt{disturbed\_signal}.
+
+\begin{lstlisting}
+    % Reversed SNR formula
+    EbN0 = 10^(SNR / 10);
+    
+    % Obtain noise spectral power density
+    N0 = Eb./EbN0;
+    
+    % Calculate sigma for BPSK
+    sigma = sqrt(N0 / 2);
+    
+    % Create noise signal
+    noise_signal = sigma * randn(1, N * samples_per_symbol);
+    
+    % Create disturbed signal by adding noise to the modulated signal
+    disturbed_signal = BPSK_signal + noise_signal;
+\end{lstlisting}
+
+\noindent The signal detection is performed using the \textsl{correlation receiver} approach. The disturbed signal is sliced and then it is compared to its respective modulation threshold, which is 0 in this case.
+
+\begin{lstlisting}
+    % Slice the received signal into segments in each column
+    sliced_disturbed_signal = reshape(disturbed_signal, samples_per_symbol, N);
+    
+    % Detect the signal with the BPSK threshold
+    detected_signal = carrier_signal * sliced_disturbed_signal < 0;
+\end{lstlisting}
