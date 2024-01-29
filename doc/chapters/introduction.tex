@@ -1,7 +1,6 @@
 \setcounter{secnumdepth}{0}
 \section{Introduction}
-\todo{Finish introduction}
-This document analyses and simulates the behavior of a digital transmission system. The document is split into two main parts:
+This document analyses and simulates the behavior of a digital transmission system to have a better understanding of the concept behind these types of telecommunication. The document is split into two main parts:
 
 \begin{enumerate}[label=\roman*]
     \item \textbf{Analysis.} \hyperref[raw-results]{\texttt{Raw results}} section
@@ -11,7 +10,7 @@ This document analyses and simulates the behavior of a digital transmission syst
 
 
 
-You can find the full project at \texttt{\href{https://github.com/imAlessas/transmission-simulation.git}{imAlessas/transmission-simulation.git}}.
+\noindent The full project can be found and downloaded on the public GitHub repository \texttt{\href{https://github.com/imAlessas/transmission-simulation.git}{imAlessas/transmission-simulation.git}}.
 
 \subsection{General schematic}
 The full schematic - containing every step - of a transmission system is presented in figure \ref{fig:transmission_diagram}. Before exploring the mathematical background hidden between the steps, it is crucial to understand what every phase of the system means.
@@ -44,7 +43,7 @@ The full schematic - containing every step - of a transmission system is present
     % 
     \item \textsl{Deinterleaving.} The deinterleaver reorders the transmitted symbols in the opposite way that the interleaver did. In such a way the \textit{burst} errors that occurred during the transmission will become single errors that can be easily recovered.
     % 
-    \item \textsl{Channel Decoding.} 
+    \item \textsl{Channel Decoding.} The channel decoding process uses the added bits during the channel encoding to perform an error correction algorithm that will drastically decrease the error rate of the transmission.
     % 
     \item \textsl{Source Decoding.} The source decoding procedure decompresses the received data into the original symbols. This is achieved by one of the source coding properties: symbols are easily detected because there are no shorter codes at the beginning of longer codes.
     % 
