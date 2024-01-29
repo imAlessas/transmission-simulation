@@ -13,8 +13,8 @@ import func.*
 % RESULT: Display values as per guidelines
 % DEBUG: Additional display for variables or comparisons
 % PLOTS: Toggle for generating plots
-SIMULATION = 0; % Set to 1 to compute the simulation
-ANALYSIS = 1;   % Set to 1 to enable the analysis
+SIMULATION = 1; % Set to 1 to compute the simulation
+ANALYSIS = 0;   % Set to 1 to enable the analysis
 RESULT = 1;     % Set to 1 to display result values
 DEBUG = 0;      % Set to 1 to enable additional debugging display
 PLOTS = 1;      % Set to 1 to generate plots, 0 to disable plots
