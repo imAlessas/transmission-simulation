@@ -76,3 +76,44 @@ codeword_two_errors(wrong_symbol_position) = ~codeword_two_errors(wrong_symbol_p
 
 show(RESULT, sum(initial_codeword ~= codeword_two_errors), "Two errors introduced");
 
+
+
+% three errors experiment
+codeword = initial_codeword;
+
+% introduce error
+error_position = randi(31, 1);
+codeword(error_position) = ~codeword(error_position);
+
+% introduce error
+error_position = randi(31, 1);
+codeword(error_position) = ~codeword(error_position);
+
+critical_position = -1;
+
+for i = 1 : 31
+    % introduce error
+    codeword(i) = ~codeword(i);
+
+    % memorize the codeword
+    codeword_three_errors = codeword;
+
+    % get the error syndrome
+    syndrome_three_errors = mod(codeword_three_errors * cyclic_decoding_matrix, 2);
+    
+    % convert the syndrome int decimal
+    syndrome_three_errors_decimal = bin2dec(num2str(syndrome_three_errors));
+    
+    % get the index of the wrong symbol
+    wrong_symbol_position = associations(syndrome_three_errors_decimal + 1);
+    
+    if ~wrong_symbol_position
+        critical_position = i;
+    end
+end
+
+show(DEBUG, critical_position);
+    
+
+
+
