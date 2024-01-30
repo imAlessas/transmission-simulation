@@ -53,23 +53,23 @@ Before analyzing the error correction code, it is necessary to properly implemen
 By introducing one error to a random position it is necessary to calculate the decimal syndrome value and then use the \texttt{associations} vector to detect and correct the error. The code snippet presented below sums up the error correction after one error is displayed below.
 
 \begin{lstlisting}
-% introduce one error
-error_position = randi(31, 1);
-codeword(error_position) =~ codeword(error_position);
+    % introduce one error
+    error_position = randi(31, 1);
+    codeword(error_position) =~ codeword(error_position);
 
-codeword_one_error = codeword;
+    codeword_one_error = codeword;
 
-% get the error syndrome
-syndrome_one_error = mod(codeword_one_error * cyclic_decoding_matrix, 2);
+    % get the error syndrome
+    syndrome_one_error = mod(codeword_one_error * cyclic_decoding_matrix, 2);
 
-% convert the syndrome into decimal
-syndrome_one_error_decimal = bin2dec(num2str(syndrome_one_error));
+    % convert the syndrome into decimal
+    syndrome_one_error_decimal = bin2dec(num2str(syndrome_one_error));
 
-% get the index of the wrong symbol
-wrong_symbol_position = associations(syndrome_one_error_decimal + 1);
+    % get the index of the wrong symbol
+    wrong_symbol_position = associations(syndrome_one_error_decimal + 1);
 
-% correct the error
-codeword_one_error(wrong_symbol_position) = ~codeword_one_error(wrong_symbol_position);
+    % correct the error
+    codeword_one_error(wrong_symbol_position) = ~codeword_one_error(wrong_symbol_position);
 \end{lstlisting}
 
 \noindent By introducing one error in a random position, like position 30, the wrong sequence would be the following:
@@ -94,23 +94,23 @@ codeword_one_error(wrong_symbol_position) = ~codeword_one_error(wrong_symbol_pos
 By using the below-displayed code, very similar to the previous one, it is possible to introduce a second error to the codeword to analyze the effect of two errors in the codeword. 
 
 \begin{lstlisting}
-% introduce second error
-error_position = randi(31, 1);
-codeword(error_position) =~ codeword(error_position);
+    % introduce second error
+    error_position = randi(31, 1);
+    codeword(error_position) =~ codeword(error_position);
 
-codeword_two_errors = codeword;
+    codeword_two_errors = codeword;
 
-% get the error syndrome
-syndrome_two_errors = mod(codeword_two_errors * cyclic_decoding_matrix, 2);
+    % get the error syndrome
+    syndrome_two_errors = mod(codeword_two_errors * cyclic_decoding_matrix, 2);
 
-% convert the syndrome into decimal
-syndrome_two_errors_decimal = bin2dec(num2str(syndrome_two_errors));
+    % convert the syndrome into decimal
+    syndrome_two_errors_decimal = bin2dec(num2str(syndrome_two_errors));
 
-% get the index of the wrong symbol
-wrong_symbol_position = associations(syndrome_two_errors_decimal + 1);
+    % get the index of the wrong symbol
+    wrong_symbol_position = associations(syndrome_two_errors_decimal + 1);
 
-% correct the error
-codeword_two_errors(wrong_symbol_position) = ~codeword_two_errors(wrong_symbol_position);
+    % correct the error
+    codeword_two_errors(wrong_symbol_position) = ~codeword_two_errors(wrong_symbol_position);
 \end{lstlisting}
 
 \noindent By running the code and generating a second error position, like position 11, the codeword becomes the following:
