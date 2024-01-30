@@ -20,8 +20,8 @@ Before calculating the channel capacity noise, the error probability $P_{err}$, 
 \noindent Which translates in the following MATLAB line:
 
 \begin{lstlisting}
-% Energy per bit to noise power spectral density ratio
-Eb_N0 = 10^(SNR / 10);
+    % Energy per bit to noise power spectral density ratio
+    Eb_N0 = 10^(SNR / 10);
 \end{lstlisting}
 
 \noindent To calculate the error probability of the BPSK modulation time, the following formula should be used:
@@ -39,14 +39,14 @@ Eb_N0 = 10^(SNR / 10);
 \noindent With this information the MATLAB script can be produced and the BER value can be calculated: $P_{err} = 1.6315 \cdot 10^{-4} $.
 
 \begin{lstlisting}
-% define the phi function
-phi = @(x) 1/2 * ( 1 + erf(x / sqrt(2)) );
+    % define the phi function
+    phi = @(x) 1/2 * ( 1 + erf(x / sqrt(2)) );
 
-% error probability
-P_err = 1 - phi( sqrt( 2 * Eb_N0) ); 
+    % error probability
+    P_err = 1 - phi( sqrt( 2 * Eb_N0) ); 
 
-% no error probability
-P_err_comp = 1 - P_err; 
+    % no error probability
+    P_err_comp = 1 - P_err; 
 \end{lstlisting}
 
 
@@ -60,8 +60,8 @@ All the information needed for the calculation of $C_{chan}$ is now ready for us
 \noindent The formula translates in the following MATLAB code line:
 
 \begin{lstlisting}
-% Channel capacity with noise
-C_chan = ( 1 + P_err * log2(P_err) + P_err_comp * log2(P_err_comp) ) * C;
+    % Channel capacity with noise
+    C_chan = ( 1 + P_err * log2(P_err) + P_err_comp * log2(P_err_comp) ) * C;
 \end{lstlisting}
 
 \noindent By running the script the result is $C_{chan} = 16.629 \text{Mbps} \geq 16.519 \text{Mbps} = R$ meaning that the Shannon's Theorem condition is fulfilled. Consequently, it is possible to find a coding approach that will recover the errors that occurred during the transmission. If the SNR value was, hypothetically, lower, there was a chance that $R > C_{chan}$ would've translated into the unpossibility of finding an error-correcting code for the transmission.

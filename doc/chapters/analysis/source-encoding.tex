@@ -39,19 +39,19 @@ Before calculating the values it is important to encode the symbols of the alpha
 \FloatBarrier \noindent After computing the Shannon-Fano algorithm to the given source, the results should be inserted into the MATLAB program, as follows.
 
 \begin{lstlisting}
-% Probability vector sorted from highest to lowest
-P = sort(PROBABILITY_VECTOR, 'descend');
+    % Probability vector sorted from highest to lowest
+    P = sort(PROBABILITY_VECTOR, 'descend');
 
 
-% Values obtained with Shannon-Fano code algorithm
+    % Values obtained with Shannon-Fano code algorithm
 
-% Symbols codeword length
-m = [3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5]; 
+    % Symbols codeword length
+    m = [3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5]; 
 
-% Number of 0s inside the symbols codeword
-m_0 = [0, 1, 1, 2, 1, 2, 3, 2, 3, 3, 4, 5];
+    % Number of 0s inside the symbols codeword
+    m_0 = [0, 1, 1, 2, 1, 2, 3, 2, 3, 3, 4, 5];
 
-% Number of 1s inside the symbols codeword
+    % Number of 1s inside the symbols codeword
 m_1 = [3, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 0];
 \end{lstlisting}
 
@@ -74,14 +74,14 @@ At this point, there is all the needed information to calculate the required dat
 \noindent After inserting these formulas in the MATLAB script, the values are $\overline{m} = 3.4300$, $\overline{m_0} = 1.6400$ and $\overline{m_1} = 1.7900$.
 
 \begin{lstlisting}
-% Average codeword length
-m_average = dot(P, m); 
+    % Average codeword length
+    m_average = dot(P, m); 
 
-% Average number of 0 symbols
-m_0_average = dot(P, m_0);
+    % Average number of 0 symbols
+    m_0_average = dot(P, m_0);
 
-% Average number of 1 symbols
-m_1_average = dot(P, m_1);
+    % Average number of 1 symbols
+    m_1_average = dot(P, m_1);
 \end{lstlisting}
 
 
@@ -102,14 +102,14 @@ m_1_average = dot(P, m_1);
 \noindent By running the following MATLAB script, the value of the binary entropy is $H_{bin} = 0.9986$ which is very close to 1. The higher the entropy is, the more uncertainty is associated with every symbol: this means that encoding the initial data with the Shannon-Fano algorithm provides a great value, information-wise.
 
 \begin{lstlisting}
-% Probability of 0 symbol
-P_0 = m_0_average / m_average; 
+    % Probability of 0 symbol
+    P_0 = m_0_average / m_average; 
 
-% Probability of 1 symbol
-P_1 = m_1_average / m_average; 
+    % Probability of 1 symbol
+    P_1 = m_1_average / m_average; 
 
-% Binary source entropy after coding
-H_bin = -P_0 * log2(P_0) - P_1 * log2(P_1); 
+    % Binary source entropy after coding
+    H_bin = -P_0 * log2(P_0) - P_1 * log2(P_1); 
 \end{lstlisting}
 
 
@@ -129,9 +129,9 @@ After encoding the source data with the Shannon-Fano algorithm, it is important 
 \noindent After running the MATLAB script displayed below, the data rate $R = 16.519 Mbit/s$ which should be lower than the channel capacity $C_{chan}$ with noise. Moreover, the compression ratio $K = 1.0090$ which is very close to 1, means that the overall compression is low: this is still not a bad result because the overall entropy is increased significantly after the source coding.
 
 \begin{lstlisting}
-% Calculate Data Rate
-R = H * (m_average * TAU) ^ (-1);
+    % Calculate Data Rate
+    R = H * (m_average * TAU) ^ (-1);
 
-% Calculate Compression Ratio
-K = m_average / H;
+    % Calculate Compression Ratio
+    K = m_average / H;
 \end{lstlisting}

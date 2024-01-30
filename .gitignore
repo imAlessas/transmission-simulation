@@ -1,8 +1,6 @@
-# Ignore README.pdf file
-README.pdf
-
 # Ignore Visual Studio Code configuration files
 .vscode
+
 # Ignore the 'tmp' directory inside the 'src' directory
 src/tmp
 
