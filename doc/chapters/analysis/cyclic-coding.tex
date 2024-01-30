@@ -1,4 +1,4 @@
-\vspace{40px} \section{Error correction}
+\vspace{40px} \section{Error correction} \label{ciclic-coding}
 The error correction analysis is important to understand how powerful and yet dangerous the error correction codes are. In this document, the analysis focuses on the \textsl{cyclic Hamming code} error correction properties even though the conclusions are still valid for the \textsl{group Hamming code} (both systematic and non-systematic). 
 
 Before analyzing the error correction code, it is necessary to properly implement it. The first thing to do is to generate a binary sequence and the encoding and decoding matrix. To do so it has been used the \texttt{cyclgen} function which should be imported from the communication package as follows: \texttt{import communications.*}. These steps are summarized in the code snipped below.
