@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - doc
+      - main
 
 permissions:
   contents: write
@@ -39,6 +40,10 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add --all
-          git commit -m "Move main.pdf to root folder"
-          git push origin $base_branch
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit, skipping commit and push."
+          else
+            git add --all
+            git commit -m "Move main.pdf to root folder"
+            git push origin $base_branch
+          fi
