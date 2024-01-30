@@ -38,10 +38,19 @@ Before analyzing the error correction code, it is necessary to properly implemen
     syndrome_no_error = mod(codeword * cyclic_decoding_matrix, 2);
 \end{lstlisting}
 
+\noindent For the next analysis, to properly understand the functioning of the error correction cyclic code, it will be used the following 26-symbols randomly-generated binary sequence:
+
+\begin{center}
+    \texttt{1 0 1 0 0 1 0 1 0 1 1 0 1 0 1 0 0 1 1 1 1 0 0 1 1 0}
+\end{center}
+
+\noindent The above sequence, after the cyclic hamming encoding will have 31 symbols as follows:
+\begin{center}
+    \texttt{1 0 1 0 0 1 0 1 0 1 1 0 1 0 1 0 0 1 1 1 1 0 0 1 1 0 }\textcolor{blue}{\texttt{0 0 1 0 0}}
+\end{center}
 
 \subsection{One error}
-By introducing one error to a random position it is necessary to calculate the decimal syndrome value and then use the \texttt{associations} vector to detect and correct the error.
-\todo{Improve the description and add some example fo 1 and 2 errors}
+By introducing one error to a random position it is necessary to calculate the decimal syndrome value and then use the \texttt{associations} vector to detect and correct the error. The code snippet presented below sums up the error correction after one error is displayed below.
 
 \begin{lstlisting}
 % introduce one error
@@ -63,8 +72,26 @@ wrong_symbol_position = associations(syndrome_one_error_decimal + 1);
 codeword_one_error(wrong_symbol_position) = ~codeword_one_error(wrong_symbol_position);
 \end{lstlisting}
 
+\noindent By introducing one error in a random position, like position 30, the wrong sequence would be the following:
+
+\begin{center}
+    \texttt{1 0 1 0 0 1 0 1 0 1 1 0 1 0 1 0 0 1 1 1 1 0 0 1 1 0 }\textcolor{blue}{\texttt{0 0 }}\textcolor{red}{\texttt{0 }}\textcolor{blue}{\texttt{0 0}}
+\end{center}
+
+\noindent Nonetheless the code manages to spot the error using the syndrome value:
+
+\begin{center}
+    \texttt{0 0 0 1 0}
+\end{center}
+
+\noindent It must be highlighted again the importance of the \texttt{associations} vector because the decimal value of the syndrome is not 30 but it is 2. The vector bonds the decimal value 2 to the position error 30 succesfully managing to perform the error correction:
+\begin{center}
+    \texttt{1 0 1 0 0 1 0 1 0 1 1 0 1 0 1 0 0 1 1 1 1 0 0 1 1 0 }\textcolor{blue}{\texttt{0 0 1 0 0}}
+\end{center}
+
 
 \subsection{Two errors} \label{two-errors-correction}
+By using the below-displayed code, very similar to the previous one, it is possible to introduce a second error to the codeword to analyze the effect of two errors in the codeword. 
 
 \begin{lstlisting}
 % introduce second error
@@ -86,4 +113,61 @@ wrong_symbol_position = associations(syndrome_two_errors_decimal + 1);
 codeword_two_errors(wrong_symbol_position) = ~codeword_two_errors(wrong_symbol_position);
 \end{lstlisting}
 
+\noindent By running the code and generating a second error position, like position 11, the codeword becomes the following:
+
+\begin{center}
+    \texttt{1 0 1 0 0 1 0 1 0 1 } \textcolor{red}{\texttt{0 }} \texttt{0 1 0 1 0 0 1 1 1 1 0 0 1 1 0 }\textcolor{blue}{\texttt{0 0 }}\textcolor{red}{\texttt{0 }}\textcolor{blue}{\texttt{0 0}}
+\end{center}
+
+\noindent Unfortunately in this case the syndrome value will not be helpful:
+
+\begin{center}
+    \texttt{0 1 1 1 0}
+\end{center}
+
+\noindent which its decimal value is 14, meaning that, using the \texttt{associations} vector, the error position is 19 not corresponding in either the two errors but creating a third error:
+\begin{center}
+    \texttt{1 0 1 0 0 1 0 1 0 1 } \textcolor{red}{\texttt{0 }} \texttt{0 1 0 1 0 0 1 }\textcolor{red}{\texttt{0 }} \texttt{1 1 0 0 1 1 0 }\textcolor{blue}{\texttt{0 0 }}\textcolor{red}{\texttt{0 }}\textcolor{blue}{\texttt{0 0}}
+\end{center}
+
+\noindent For this reason it is important to analyze the probability of two errors occurring in the codeword (see \ref{uncorrectable}): because with the error correction code the two errors not only not be correct but also a third error will be generated in the attempt.
+
+\subsection*{Three erros particoular situation}
+If three errors occur in specific positions the algorithm may not even detect the errors because the syndrome is zero. This happens when the three error syndromes cancel each other out. In this case, if the errors are at positions 30 and 11, the critical error position is 14. In this situation, the error syndrome is 0, preventing the algorithm from detecting and correcting any of the three errors. The following code calculates the critical position for any two random error positions using a simple \texttt{brute force} algorithm:
+
+\begin{lstlisting}
+    % Three errors experiment
+    codeword = initial_codeword;
+
+    % introduce error
+    error_position = randi(31, 1)
+    codeword(error_position) = ~codeword(error_position);
+
+    % introduce error
+    error_position = randi(31, 1)
+    codeword(error_position) = ~codeword(error_position);
+
+    critical_position = -1;
+
+    for i = 1 : 31
+        % introduce error
+        codeword(i) = ~codeword(i);
+
+        % memorize the codeword
+        codeword_three_errors = codeword;
+
+        % get the error syndrome
+        syndrome_three_errors = mod(codeword_three_errors * cyclic_decoding_matrix, 2);
+        
+        % convert the syndrome into decimal
+        syndrome_three_errors_decimal = bin2dec(num2str(syndrome_three_errors));
+        
+        % get the index of the wrong symbol
+        wrong_symbol_position = associations(syndrome_three_errors_decimal + 1);
+        
+        if ~wrong_symbol_position
+            critical_position = i;
+        end
+    end
+\end{lstlisting}
 
