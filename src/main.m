@@ -17,7 +17,7 @@ SIMULATION = 0; % Set to 1 to compute the simulation
 ANALYSIS = 1;   % Set to 1 to enable the analysis
 RESULT = 1;     % Set to 1 to display result values
 DEBUG = 0;      % Set to 1 to enable additional debugging display
-PLOTS = 0;      % Set to 1 to generate plots, 0 to disable plots
+PLOTS = 1;      % Set to 1 to generate plots, 0 to disable plots
 
 
 

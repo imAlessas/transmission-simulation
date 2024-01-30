@@ -123,10 +123,10 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
     f.Position = [450, 100, 700, 600];
     
     % Draw plot without Hamming code
-    semilogy(SNR_vector, BER_no_hamming, "b"), grid on;
+    semilogy(SNR_vector, BER_no_hamming, 'b'), grid on;
 
     % Draw plot with Hamming code
-    hold on, semilogy(SNR_vector, BER_with_hamming, "r"), hold off;
+    hold on, semilogy(SNR_vector, BER_with_hamming, 'r'), hold off;
 
     % Draw theoretical plot
     hold on, semilogy(SNR_vector, error_propability, 'm'), hold off;
@@ -135,7 +135,7 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
     hold on, plot([SNR SNR], [1e-4, 1e-1], 'g--'), hold off;
 
     
-    xlabel("Signal-to-Noise Ratio, [dB]"), ylabel("Bit Error Rate"); % lables
+    xlabel('Signal-to-Noise Ratio, [dB]'), ylabel('Bit Error Rate'); % lables
     ylim([1e-4, 1e-1]), xlim([0, 10]); % limits
     legend('Uncoded', 'Coded', 'Theoretical', 'Given SNR value'); % legend
 \end{lstlisting}

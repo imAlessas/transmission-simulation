@@ -25,17 +25,12 @@
 
 \tableofcontents \newpage
 
-\listoftodos \newpage
-
-
-
-
-
 
 \input{chapters/introduction.tex}
 
+
 \if\analysis1
-    \newpage \part{Analysis}
+    \newpage\newpage \part{Analysis}
 
     \input{chapters/analysis/source-data.tex} % Task 2
 
@@ -56,15 +51,8 @@
 
 
 
-
-
-% ==================================================
-\setcounter{section}{0}
-
-
-
 \if\simulation1
-    \newpage \part{Simulation}
+    \newpage\newpage \part{Simulation}
 
     \input{chapters/simulation/data-generation.tex}
 
