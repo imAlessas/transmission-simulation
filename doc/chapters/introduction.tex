@@ -90,25 +90,36 @@ The parameters used in this project have been assigned in a datasheet and are re
     \label{tab:source7}
 \end{table}
 
-\noindent Afterwards the parameters have been transcripted in the MATLAB program, as shown in the following snippet. 
+\FloatBarrier\noindent Afterwards the parameters have been transcripted in the MATLAB program. In the following code snippet, other than the initial parameters, some other useful values have been calculated such as the number of symbols to be transmitted, the number of samples per symbol, the $r$ and $k$ values which play a crucial role in the code correction algorithms (see \ref{ciclic-coding},\ref{hamming-encoding}) and finally the scrambler key (see \ref{scrambling}).
 
 \begin{lstlisting}
-% source number 7
-ALPHABET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-PROBABILITY_VECTOR = [11, 7, 9, 1, 6, 6, 13, 14, 13, 5, 11, 4]/100;
+    % Initial constant parameters
 
-TAU = 60e-9; % symbol duration time, [s]
-SNR = 8.1; % Signal-to-Noise-Ration, [dB]
-% Source Code: Shannon-Fano
-% Error correction code: Cyclic
-CODEWORD_LENGTH = 31; % m
-% 
-F_0 = 2.5e+9; % carrier frequency [Hz]
-% Modulation: BPSK
-PHASE_SHIFT = pi; % [rad]
-U = 1; % amplitude BPSK signal [V]
-
-transmitted_symbol_number = 20;
+    % source number 7
+    alphabet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    probability_vector = [11, 7, 9, 1, 6, 6, 13, 14, 13, 5, 11, 4]/100;
+    
+    tau = 60e-9;                        % symbol duration time, [s]
+    SNR = 8.1;                          % Signal-to-Noise-Ration, [dB]
+                                        % Source Code: Shannon-Fano
+                                        % Error correction code: Cyclic
+    generation_polynomial = [...        % z^5 + z^2 + z^0
+        1 0 0 1 0 1]; 
+    codeword_length = 31;               % m
+    
+    f0 = 2.5e+9;                        % carrier frequency [Hz]
+                                        % Modulation: BPSK
+    phase_shift = pi;                   % Phase shift [rad]
+    U = 1;                              % amplitude BPSK signal [V]
+    
+    % Additional data
+    transmitted_symbol_number = randi(1e5,1);     % number of symbols   
+    samples_per_symbol = 500;           % samples per symbol
+    r = ceil(log2(codeword_length + 1));% r
+    k = codeword_length - r;            % k
+    
+    % Used for the scrambling/descrmabling algorithm
+    scrambler_key = randi(2, 1, codeword_length) - 1; 
 \end{lstlisting}
 
 
