@@ -1,8 +1,6 @@
 \vspace{40px} \section{Modulated signal spectrum}
 The spectrum analysis is helpful for a better understanding of the behavior of the BPSK modulation technique. Analyzing the spectrum provides insights into the distribution of signal power across different frequencies. In this section, there will be the analysis an the plots of a periodic \texttt{1010} sequence and a randmoly generated sequence.
 
-% as we can see we don't see the carrier component on the center of the graph. 
-
 % beacause when we sbtract the two cbask the component subtract there but the other two components adds ip because of the oppsoite phases. We have twice as much for the amplitude shif key,ng (energy redistribuition for BPSK)
 
 
@@ -14,7 +12,7 @@ To analyze and plot the spectrum of a periodic \texttt{1010} sequence signal som
     \omega_0 = 2\pi f_0 \hspace{30px} \Omega = \frac{\pi}{\tau}
 \end{equation*}
 
-\noindent The $k$ range is a range of $n$ indexes around the carrier frequency central index, $k_0 = \frac{\omega_0}{\Omega}$. These values can be easily obtained by running the below-displayed code snippet.
+\noindent The $k$ range is a range of $n$ indexes around the carrier frequency central index, $k_0 = \omega_0 / \Omega$. These values can be easily obtained by running the below-displayed code snippet.
 
 \begin{lstlisting}
     % anguolar carrier frequency
@@ -54,20 +52,22 @@ To analyze and plot the spectrum of a periodic \texttt{1010} sequence signal som
     C_BPSK = C_BASK .* ( exp(1j * k * OMEGA * tau / 2) -  exp(- 1j * k * OMEGA * tau / 2));
 \end{lstlisting}
 
-\noindent The code for plotting the spectrum of the BPSK for a periodic sequence signal is shown below. 
+\noindent After numerically calculating the spectrum, it is very important to plot the result by running the following code snippet.
 
 \begin{lstlisting}
     % creates figure and settings
     f = figure(2);
     f.Name = 'Analysis of BPSK spectrum';
     f.NumberTitle = 'off';
-    f.Position = [450, 100, 700, 600];
+    f.Position = [200, 120, 1200, 600];
     
     % plot 1st result
-    subplot(2, 1, 1), stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
+    stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
     xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
     ylim([-0.05, 0.35]);
 \end{lstlisting}
+
+\noindent By observing the plot displayed in figure \ref{fig:periodic-signal-spectrum} it is noticeable that the carrier component in the center of the plot is zero: this is the quirk of the BPSK modulation. Sure enough, the two BASK components subtract at the center of the spectrum but add up in the other cases due to the opposite phase of the formula. 
 
 \begin{figure}[h]
     \centering
@@ -78,28 +78,41 @@ To analyze and plot the spectrum of a periodic \texttt{1010} sequence signal som
 
 
 \subsection{Random sequence signal}
+After plotting and analyzing the spectrum in the case of a periodic signal, it would be important to analyze the spectrum of a random signal as well. To do so it is necessary to get the power spectral density of the BPSK signal, which is double the power spectral density of the BASK modulation:
 
-we have twice as great value compared for the BASK.
+\begin{equation*}
+    G_{BASK}(\omega) = 2\tau|C_{BASK}(\omega)|^2
+\end{equation*}
 
+\noindent Consequently the power spectral density of the BPSK signal, called $G_{BPSK}$, can be computed using the following MATLAB script.
 
 \begin{lstlisting}
     % Power Spectral Density (PSD) for random input signal
     omega = ( k(1) : 1/100 : k(end) ) * OMEGA; % angoular frequency 
 
-    phase = (omega - omega_0 ) * tau / 2; % continuous phase 2
-
+    phase = (omega - omega_0 ) * tau / 2; % continuous phase 
     S_BASK =  2 * tau * sinc(phase / pi ) * U / 4 * 1j;
-
 
     % PSD as a normalized squarred spectral function
     G_BPSK = 1/ tau * abs(S_BASK) .^2;
+\end{lstlisting}
 
+\noindent Eventually, as for the spectrum of a periodic signal, the graph can be plotted and generated using the following script.
 
-    subplot(2, 1, 2), plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
+\begin{lstlisting}
+    % creates figure and settings
+    f = figure(3);
+    f.Name = 'Analysis of BPSK spectrum';
+    f.NumberTitle = 'off';
+    f.Position = [200, 120, 1200, 600];
+
+    % plot 2nd result
+    plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
     xlabel('Frequency [GHz]'), ylabel('PSD'), title('PSD of random signal')
     ylim([-0.1e-8, 1.6e-8]);
 \end{lstlisting}
 
+\noindent The result is that the spectrum of the BPSK signal is extremely high if compared with the BASK and BFSK spectrum due to its particular properties (figure \ref{fig:random-signal-spectrum}): the phase shift of $\pi$ doubles the PSD in comparison with the BASK and the BFSK making this modulation technique the most efficient one out of the three.
 
 \begin{figure}[h]
     \centering
