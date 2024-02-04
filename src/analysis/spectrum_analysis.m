@@ -30,10 +30,10 @@ if RESULT && PLOTS
     f = figure(2);
     f.Name = 'Analysis of BPSK spectrum';
     f.NumberTitle = 'off';
-    f.Position = [450, 100, 700, 600];
+    f.Position = [200, 120, 1200, 600];
     
     % plot 1st result
-    subplot(2, 1, 1), stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
+    stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
     xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
     ylim([-0.05, 0.35]);
 end
@@ -51,7 +51,14 @@ S_BASK =  2 * tau * sinc(phase / pi ) * U / 4 * 1j;
 G_BPSK = 1/ tau * abs(S_BASK) .^2;
 
 if RESULT && PLOTS
-    subplot(2, 1, 2), plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
+    % creates figure and settings
+    f = figure(3);
+    f.Name = 'Analysis of BPSK spectrum';
+    f.NumberTitle = 'off';
+    f.Position = [200, 120, 1200, 600];
+
+    % plot 2nd result
+    plot( omega / (2 * pi), G_BPSK, 'b' ), grid on,
     xlabel('Frequency [GHz]'), ylabel('PSD'), title('PSD of random signal')
     ylim([-0.1e-8, 1.6e-8]);
 end
