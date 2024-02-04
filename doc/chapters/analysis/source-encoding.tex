@@ -40,7 +40,7 @@ Before calculating the values it is important to encode the symbols of the alpha
 
 \begin{lstlisting}
     % Probability vector sorted from highest to lowest
-    P = sort(PROBABILITY_VECTOR, 'descend');
+    sorted_prob_vector = sort(probability_vector, 'descend');
 
 
     % Values obtained with Shannon-Fano code algorithm
@@ -75,13 +75,13 @@ At this point, there is all the needed information to calculate the required dat
 
 \begin{lstlisting}
     % Average codeword length
-    m_average = dot(P, m); 
+    m_average = dot(sorted_prob_vector, m); 
 
     % Average number of 0 symbols
-    m_0_average = dot(P, m_0);
+    m_0_average = dot(sorted_prob_vector, m_0);
 
     % Average number of 1 symbols
-    m_1_average = dot(P, m_1);
+    m_1_average = dot(sorted_prob_vector, m_1);
 \end{lstlisting}
 
 
