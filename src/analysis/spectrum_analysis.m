@@ -13,16 +13,16 @@ k_0 = omega_0 / OMEGA; % Carrier frequency central index
 show(DEBUG, k_0);
 
 % Define range of indexes for spectrum
-k = k_0 + (-10 : 10);
+K = k_0 + (-10 : 10);
 
 
 % Phase value of the spectral function
-phase = (k * OMEGA - omega_0) * tau / 2;
+phase = (K * OMEGA - omega_0) * tau / 2;
 
 C_BASK = sinc(phase / pi) * U / 4 * 1j; % fourirer series coefficient, BASK
 
 % BPSK spectrum for periodocal '1' and '0' sequence (...1 0 1 0 1 0 1 0 1 0...)
-C_BPSK = C_BASK .* ( exp(1j * k * OMEGA * tau / 2) -  exp(- 1j * k * OMEGA * tau / 2));
+C_BPSK = C_BASK .* ( exp(1j * K * OMEGA * tau / 2) -  exp(- 1j * K * OMEGA * tau / 2));
 
 
 if RESULT && PLOTS
@@ -33,7 +33,7 @@ if RESULT && PLOTS
     f.Position = [450, 100, 700, 600];
     
     % plot 1st result
-    subplot(2, 1, 1), stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
+    subplot(2, 1, 1), stem( K * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
     xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
     ylim([-0.05, 0.35]);
 end

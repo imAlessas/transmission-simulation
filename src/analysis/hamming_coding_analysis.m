@@ -9,7 +9,7 @@ SNR_vector = 0 : 1/2 : 15;
 % Generation of binary sequence
 
 if ~GENERATE_NEW_SEQUENCE
-    if ~SIMULATION & ANALYSIS
+    if ~SIMULATION && ANALYSIS
         fprintf("Error: Unable to use the current sequence because SIMULATION flag is disable.\n" + ...
             "Try enabling it.\nA new sequence will be generated from scratch.\n\n\n")
         N = 1e4; % number of bits to be sent
@@ -51,17 +51,7 @@ Eb = dot(carrier_signal, carrier_signal);
 
 % Hamming encoding
 
-% Create the matrix for the Hamming-encoding algorithm
-binary_matrix = reshape(binary_sequence, k, N / k)';
-show(DEBUG, binary_matrix);
-
-% Hamming-encode the matrix
-hamming_encoded_matrix = hamming_encoding(binary_matrix, codeword_length, k, generation_polynomial); % encode data
-hamming_encoded_matrix = hamming_encoded_matrix';
-show(DEBUG, hamming_encoded_matrix);
-
-% Unwrap the matrix into a single row
-hamming_encoded_sequence = hamming_encoded_matrix(:)';
+hamming_encoded_sequence = hamming_encoding(binary_sequence, codeword_length, k, generation_polynomial);
 show(DEBUG, hamming_encoded_sequence);
 
 % Update the number of bits
@@ -117,15 +107,8 @@ for i = 1 : length(SNR_vector)
     BER_no_hamming(i) = errors_number_no_hamming / N;
     
 
-    % Reshape the sequence into a matrix, every row is a codeword
-    detected_sequence_matrix = reshape(detected_signal, codeword_length, N/codeword_length)';
-    
-    % Perform Hamming decoding
-    decoded_data_matrix = hamming_decoding(detected_sequence_matrix, codeword_length, k, generation_polynomial); % encode data
-    decoded_data_matrix = decoded_data_matrix';
-
-    % Unwrap the matrix into a sequence
-    decoded_data_sequence = decoded_data_matrix(:)'; 
+    % Hamming decoding
+    decoded_data_sequence = hamming_decoding(detected_signal, codeword_length, k, generation_polynomial); 
 
     % Check number of erros
     errors_number_with_hamming = sum (decoded_data_sequence ~= binary_sequence);

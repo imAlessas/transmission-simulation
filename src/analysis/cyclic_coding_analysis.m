@@ -17,7 +17,7 @@ cyclic_encoding_matrix = cyclic_encoding_matrix (:, reorder);
 cyclic_decoding_matrix = (cyclic_decoding_matrix (:, reorder))'; 
 
 % Associates the syndrome to the bit.
-% This vector has been calculated in the hamming_decoding function and
+% This vector has been calculated in the get_associations function and
 % copy-pasted here.
 associations = [0 31 30 13 29 26 12 20 28 2 25 4 11 23 19 8 27 21 1 14 24 9 3 5 10 6 22 15 18 17 7 16];
 
