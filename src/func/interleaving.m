@@ -1,4 +1,4 @@
-function mixed_sequence = interleaving(unmixed_sequence)
+function mixed_sequence = interleaving(unmixed_sequence, column_length)
 % INTERLEAVING reorganizes a sequence by interleaving its elements into a matrix.
 %
 % INPUT:
@@ -6,9 +6,6 @@ function mixed_sequence = interleaving(unmixed_sequence)
 %
 % OUTPUT:
 %   mixed_sequence:     A vector representing the interleaved sequence.
-
-    % Define the length of each column (also the number of rows)
-    column_length = 31;
 
     % Calculate the number of length of each row (also the number of columns) based on the input sequence length
     row_length = length(unmixed_sequence) / column_length;
