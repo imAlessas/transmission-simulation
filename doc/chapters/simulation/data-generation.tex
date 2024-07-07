@@ -2,7 +2,7 @@
 To simulate the transmission using the given \hyperref[initial-parameters]{initial parameters} it is crucial to generate the symbols following the probabilities specified in the \hyperref[tab:source7]{\texttt{Source 7}} data sheet. To achieve such generation specifics a generation algorithm shall be implemented in MATLAB. The following MATLAB functions will generate a sequence of \texttt{n} symbols in the alphabet following their probability distribution.  
 
 \subsection{Comulative distribution probabilities calculator}
-The first function - \texttt{distribution\_probability\_matrix} - will take as input the \texttt{symbol\_matrix} whose first row contains the symbols in the alphabet and the second row contains their respective probabilities. The function will return a matrix whose first row is the same but the second row contains cumulative distribution meaning that the second probability value is added to the first, the third is added to the second and so on. Consequently, the last probability value will be one.
+The first function — \texttt{distribution\_probability\_matrix} — will take as input the \texttt{symbol\_matrix} whose first row contains the symbols in the alphabet and the second row contains their respective probabilities. The function will return a matrix whose first row is the same but the second row contains cumulative distribution meaning that the second probability value is added to the first, the third is added to the second and so on. Consequently, the last probability value will be one.
 
 \begin{lstlisting}
 function result = distribution_probability_matrix(symbol_matrix)

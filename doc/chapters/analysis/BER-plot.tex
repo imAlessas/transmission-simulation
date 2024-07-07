@@ -27,7 +27,7 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
     Eb = dot(carrier_signal, carrier_signal);
 \end{lstlisting}
 
-\noindent After creating the carrier signal it is necessary to encode and modulate the randomly generated sequence. To perform the Hamming encoding algorithm it is necessary to create a matrix that will be used in the algorithm. The functioning of the encoding is carefully explained in chapter \ref{hamming-encoding}. After Hamming-encoding the sequence the BPSK modulation is performed by transforming the sequence into a Non-Return-to-Zero signal and performing the \textit{Kronecke} multiplication with the carrier signal.
+\noindent After creating the carrier signal it is necessary to encode and modulate the randomly generated sequence. To perform the Hamming encoding algorithm it is necessary to create a matrix that will be used in the algorithm. The functioning of the encoding is carefully explained in chapter\,\ref{hamming-encoding}. After Hamming-encoding the sequence the BPSK modulation is performed by transforming the sequence into a Non-Return-to-Zero signal and performing the \textit{Kronecke} multiplication with the carrier signal.
 
 \begin{lstlisting}
     % Hamming encoding
@@ -69,7 +69,7 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
     BER_with_hamming = 1 : length(SNR_vector);
 \end{lstlisting}
 
-\noindent The crucial section of the analysis is presented in the following \texttt{for} loop. First of all the Gaussian White Noise is generated for every entry of the \texttt{SNR\_vector} variable and then added to the BPSK modulated signal. At this point, the detection is performed using the \href{https://github.com/imAlessas/telecom-lab-works/blob/main/reports/lab-4/Trigolo_Report_Lab4.pdf}{\textsl{optimal correlation receiver}} and the BPSK threshold which is zero. Before performing the error correction, the detected sequence is compared with the initial sequence to keep calculating the Bit Error Rate without performing the decoding (\texttt{BER\_no\_hamming}). Secondly, the error correction is performed using the detection algorithm, thoughtfully explained in chapter \ref{hamming-decoding}, and then the second BER value is computed (\texttt{BER\_with\_hamming}).
+\noindent The crucial section of the analysis is presented in the following \texttt{for} loop. First of all the Gaussian White Noise is generated for every entry of the \texttt{SNR\_vector} variable and then added to the BPSK modulated signal. At this point, the detection is performed using the \href{https://github.com/imAlessas/telecom-lab-works/blob/main/reports/lab-4/Trigolo_Report_Lab4.pdf}{\textsl{optimal correlation receiver}} and the BPSK threshold which is zero. Before performing the error correction, the detected sequence is compared with the initial sequence to keep calculating the Bit Error Rate without performing the decoding (\texttt{BER\_no\_hamming}). Secondly, the error correction is performed using the detection algorithm, thoughtfully explained in chapter\,\ref{hamming-decoding}, and then the second BER value is computed (\texttt{BER\_with\_hamming}).
 
 \begin{lstlisting}
     for i = 1 : length(SNR_vector)
@@ -140,7 +140,7 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
     legend('Uncoded', 'Coded', 'Theoretical', 'Given SNR value'); % legend
 \end{lstlisting}
 
-\noindent By running the MATLAB script the plot obtained is displayed in figure \ref{fig:BER-plot}. As expected the red plot decreases faster than the blue plot. This is a reasonable and expected result because the error correction code decreases the error rate by correcting the errors occurring during the transmission. Additionally, the given SNR value is plotted with a dotted green line: the red and the green curves do not meet meaning that the given SNR value, the given modulation technique and the given channel coding algorithm are acceptable and valid to successfully perform a digital transmission. 
+\noindent By running the MATLAB script the plot obtained is displayed in figure\,\ref{fig:BER-plot}. As expected the red plot decreases faster than the blue plot. This is a reasonable and expected result because the error correction code decreases the error rate by correcting the errors occurring during the transmission. Additionally, the given SNR value is plotted with a dotted green line: the red and the green curves do not meet meaning that the given SNR value, the given modulation technique and the given channel coding algorithm are acceptable and valid to successfully perform a digital transmission. 
 
 \begin{figure}[h]
     \centering
@@ -149,4 +149,4 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
     \label{fig:BER-plot}
 \end{figure}
 
-One important thing to notice in figure \ref{fig:BER-plot} is the beginning of the three plots: the red one is above the blue one meaning that with a low SNR value (meaning that the power of the signal is almost the same as the noise) the error rate of the coded source is higher compared to the uncoded one. This is because when there are 2 or more errors in the codeword the Hamming code is not able to perform the error correction (as explained in the chapter \ref{ciclic-coding}) and creates an additional error in the codeword, consequently raising the error probability (or the BER).
+One important thing to notice in figure\,\ref{fig:BER-plot} is the beginning of the three plots: the red one is above the blue one meaning that with a low SNR value (meaning that the power of the signal is almost the same as the noise) the error rate of the coded source is higher compared to the uncoded one. This is because when there are 2 or more errors in the codeword the Hamming code is not able to perform the error correction (as explained in the chapter\,\ref{ciclic-coding}) and creates an additional error in the codeword, consequently raising the error probability (or the BER).

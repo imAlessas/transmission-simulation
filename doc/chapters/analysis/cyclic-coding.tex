@@ -19,7 +19,7 @@ Before analyzing the error correction code, it is necessary to properly implemen
     cyclic_decoding_matrix = (cyclic_decoding_matrix (:, reorder))'; 
 \end{lstlisting}
 
-\noindent One crucial thing to do is to redefine the associations between the syndrome values and the error position. The vector that is shown below is not random at all but it has been calculated using the algorithm shown in the chapter \ref{hamming-decoding} and the copy-pasted it. This vector is very important because if it is not defined the correction algorithm won't work at all but will increase the error rate.
+\noindent One crucial thing to do is to redefine the associations between the syndrome values and the error position. The vector that is shown below is not random at all but it has been calculated using the algorithm shown in the chapter\,\ref{hamming-decoding} and the copy-pasted it. This vector is very important because if it is not defined the correction algorithm won't work at all but will increase the error rate.
 
 \begin{lstlisting} 
     % Associates the syndrome to the bit.
@@ -84,7 +84,7 @@ By introducing one error to a random position it is necessary to calculate the d
     \texttt{0 0 0 1 0}
 \end{center}
 
-\noindent It must be highlighted again the importance of the \texttt{associations} vector because the decimal value of the syndrome is not 30 but it is 2. The vector bonds the decimal value 2 to the position error 30 succesfully managing to perform the error correction:
+\noindent It must be highlighted again the importance of the \texttt{associations} vector because the decimal value of the syndrome is not 30 but it is 2. The vector bonds the decimal value 2 to the position error 30 successfully managing to perform the error correction:
 \begin{center}
     \texttt{1 0 1 0 0 1 0 1 0 1 1 0 1 0 1 0 0 1 1 1 1 0 0 1 1 0 }\textcolor{blue}{\texttt{0 0 1 0 0}}
 \end{center}
@@ -130,7 +130,7 @@ By using the below-displayed code, very similar to the previous one, it is possi
     \texttt{1 0 1 0 0 1 0 1 0 1 } \textcolor{red}{\texttt{0 }} \texttt{0 1 0 1 0 0 1 }\textcolor{red}{\texttt{0 }} \texttt{1 1 0 0 1 1 0 }\textcolor{blue}{\texttt{0 0 }}\textcolor{red}{\texttt{0 }}\textcolor{blue}{\texttt{0 0}}
 \end{center}
 
-\noindent For this reason it is important to analyze the probability of two errors occurring in the codeword (see \ref{uncorrectable}): because with the error correction code the two errors not only not be correct but also a third error will be generated in the attempt.
+\noindent For this reason it is important to analyze the probability of two errors occurring in the codeword (see\,\ref{uncorrectable}): because with the error correction code the two errors not only not be correct but also a third error will be generated in the attempt.
 
 \subsection*{Three erros particoular situation}
 If three errors occur in specific positions the algorithm may not even detect the errors because the syndrome is zero. This happens when the three error syndromes cancel each other out. In this case, if the errors are at positions 30 and 11, the critical error position is 14. In this situation, the error syndrome is 0, preventing the algorithm from detecting and correcting any of the three errors. The following code calculates the critical position for any two random error positions using a simple \texttt{brute force} algorithm:

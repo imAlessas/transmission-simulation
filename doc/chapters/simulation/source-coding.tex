@@ -85,7 +85,7 @@ function symbol = decode_symbol(code)
 end
 \end{lstlisting}
 
-\noindent This function is used in the \texttt{shannon\_fano\_decoding} function wich performs the decoding of the input \texttt{encoded\_sequence}. The body of the function is a little more complicated than the encoding function because the length of the encoded symbol is not fixed - it can be 3, 4 or 5 - and, as such, every time a new symbol is read from the decoded data, a check should be done to understand if the symbol can be decoded or not. 
+\noindent This function is used in the \texttt{shannon\_fano\_decoding} function wich performs the decoding of the input \texttt{encoded\_sequence}. The body of the function is a little more complicated than the encoding function because the length of the encoded symbol is not fixed — it can be 3, 4 or 5 — and, as such, every time a new symbol is read from the decoded data, a check should be done to understand if the symbol can be decoded or not. 
 
 \begin{lstlisting}
 function decoded_sequence = shannon_fano_decoding(encoded_sequence)

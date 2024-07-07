@@ -1,7 +1,5 @@
 \vspace{40px} \section{Modulated signal spectrum}
-The spectrum analysis is helpful for a better understanding of the behavior of the BPSK modulation technique. Analyzing the spectrum provides insights into the distribution of signal power across different frequencies. In this section, there will be the analysis an the plots of a periodic \texttt{1010} sequence and a randmoly generated sequence.
-
-% beacause when we sbtract the two cbask the component subtract there but the other two components adds ip because of the oppsoite phases. We have twice as much for the amplitude shif key,ng (energy redistribuition for BPSK)
+The spectrum analysis is helpful for a better understanding of the behavior of the BPSK modulation technique. Analyzing the spectrum provides insights into the distribution of signal power across different frequencies. In this section, there will be the analysis an the plots of a periodic \texttt{1010} sequence and a randomly generated sequence.
 
 
 
@@ -67,7 +65,7 @@ To analyze and plot the spectrum of a periodic \texttt{1010} sequence signal som
     ylim([-0.05, 0.35]);
 \end{lstlisting}
 
-\noindent By observing the plot displayed in figure \ref{fig:periodic-signal-spectrum} it is noticeable that the carrier component in the center of the plot is zero: this is the quirk of the BPSK modulation. Sure enough, the two BASK components subtract at the center of the spectrum but add up in the other cases due to the opposite phase of the formula. 
+\noindent By observing the plot displayed in figure\,\ref{fig:periodic-signal-spectrum} it is noticeable that the carrier component in the center of the plot is zero: this is the quirk of the BPSK modulation. Sure enough, the two BASK components subtract at the center of the spectrum but add up in the other cases due to the opposite phase of the formula. 
 
 \begin{figure}[h]
     \centering
@@ -112,7 +110,7 @@ After plotting and analyzing the spectrum in the case of a periodic signal, it w
     ylim([-0.1e-8, 1.6e-8]);
 \end{lstlisting}
 
-\noindent The result is that the spectrum of the BPSK signal is extremely high if compared with the BASK and BFSK spectrum due to its particular properties (figure \ref{fig:random-signal-spectrum}): the phase shift of $\pi$ doubles the PSD in comparison with the BASK and the BFSK making this modulation technique the most efficient one out of the three.
+\noindent The result is that the spectrum of the BPSK signal is extremely high if compared with the BASK and BFSK spectrum due to its particular properties (figure\,\ref{fig:random-signal-spectrum}): the phase shift of $\pi$ doubles the PSD in comparison with the BASK and the BFSK making this modulation technique the most efficient one out of the three.
 
 \begin{figure}[h]
     \centering

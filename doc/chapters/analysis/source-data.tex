@@ -4,7 +4,7 @@ The source data analysis provides a general overview of how the data are generat
 
 \subsection{Source entropy}
 
-The source entropy $H$ and the maximum source entropy $H_{max}$. The entropy of a sequence of symbols is a number that summarizes the randomness of the selection of the symbols in the source sequence. The more uncertain the symbols are, the higher the entropy is and the higher the information the symbols carry. The ideal entropy is when the source symbols are \texttt{1 0 1 0 1 0 \dots} while the worst entropy is when all the symbols are \texttt{1} or \texttt{0}. Given a sequence $S$ of $N$ symbols, where each of them has its probability $P_i$ to occur, the entropy of the sequence is:
+The source entropy $H$ and the maximum source entropy $H_{\max}$. The entropy of a sequence of symbols is a number that summarizes the randomness of the selection of the symbols in the source sequence. The more uncertain the symbols are, the higher the entropy is and the higher the information the symbols carry. The ideal entropy is when the source symbols are \texttt{1 0 1 0 1 0 \dots} while the worst entropy is when all the symbols are \texttt{1} or \texttt{0}. Given a sequence $S$ of $N$ symbols, where each of them has its probability $P_i$ to occur, the entropy of the sequence is:
 
 \begin{equation*}
     H(S) = - \sum_{i = 1}^{N}\,P_i \log_2 P_i
@@ -17,10 +17,10 @@ The source entropy $H$ and the maximum source entropy $H_{max}$. The entropy of 
     H = - dot(PROBABILITY_VECTOR, log2(PROBABILITY_VECTOR));
 \end{lstlisting}
 
-\noindent Secondly, in order to calculate the maximum entropy $H_{max}$, two conditions have to be met: all of the symbols have the same probability $P_i = \frac{1}{N}$ and, of course, they do not correlate one another. Consequently:
+\noindent Secondly, in order to calculate the maximum entropy $H_{\max}$, two conditions have to be met: all of the symbols have the same probability $P_i = \frac{1}{N}$ and, of course, they do not correlate one another. Consequently:
 
 \begin{equation*}
-    H_{max}(S) = - \sum_{i = 1}^{N}\,\frac{1}{N} \log_2 \frac{1}{N} = \frac{1}{N} \sum_{i = 1}^{N}\, \log_2 N = \log_2N
+    H_{\max}(S) = - \sum_{i = 1}^{N}\,\frac{1}{N} \log_2 \frac{1}{N} = \frac{1}{N} \sum_{i = 1}^{N}\, \log_2 N = \log_2N
 \end{equation*}
 
 \noindent Also in this case the MATLAB script to calculate the maximum entropy is trivial.
@@ -33,7 +33,7 @@ The source entropy $H$ and the maximum source entropy $H_{max}$. The entropy of 
     H_max = log2(N);
 \end{lstlisting}
 
-\noindent By running the scripts, the value obtained are $H = 3.3995$ while $H_{max} = 3.5850$. Reasonably $H < H_{max}$ because the given probabilities in the datasheet weren't equal to each other.
+\noindent By running the scripts, the value obtained are $H = 3.3995$ while $H_{\max} = 3.5850$. Reasonably $H < H_{\max}$ because the given probabilities in the datasheet weren't equal to each other.
 
 % 
 \subsection{Redundancy coefficient}
@@ -41,7 +41,7 @@ The source entropy $H$ and the maximum source entropy $H_{max}$. The entropy of 
 The redundancy coefficient $\rho$ summarizes in a number how much additional information is present inside the sequence. Essentially, the lower the redundancy coefficient is, the better, because it means that the source entropy is very high. Mathematically, the coefficient $\rho$ can be obtained as follows:
 
 \begin{equation*}
-    \rho = 1 - \frac{H}{H_{max}}(S)    
+    \rho = 1 - \frac{H}{H_{\max}}(S)    
 \end{equation*}
 
 \noindent which translates into the following code snippet:
@@ -51,7 +51,7 @@ The redundancy coefficient $\rho$ summarizes in a number how much additional inf
     source_redoundancy = 1 - H/H_max;
 \end{lstlisting}
 
-\noindent Expectedly, the redundancy coefficient is not zero because $H<H_{max}$: by running the script, $\rho = 0.0517$.
+\noindent Expectedly, the redundancy coefficient is not zero because $H<H_{\max}$: by running the script, $\rho = 0.0517$.
 
 
 
