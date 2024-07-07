@@ -6,11 +6,8 @@ The interleaving and deinterleaving process is needed to prevent group errors, a
 The \texttt{interleaving} function uses a matrix transpose algorithm to mix the sequence. Noticeably the unmixed sequence is compressed into the \texttt{interleaver\_matrix}: the first 31 symbols of the sequence are inserted into the first column, the second 31 symbols are inserted into the second column and so on. After filling the matrix, to create the interleaved sequence it is necessary to read the matrix through the rows: this is the purpose of the second \texttt{for} loop.
 
 \begin{lstlisting}
-function mixed_sequence = interleaving(unmixed_sequence)
-    % Define the length of each column (also the number of rows)
-    column_length = 31;
-
-    % Calculate the length of each row (also the number of columns) based on the input sequence length
+function mixed_sequence = interleaving(unmixed_sequence, column_length)
+    % Calculate the number of length of each row (also the number of columns) based on the input sequence length
     row_length = length(unmixed_sequence) / column_length;
 
     % Write on the columns and read on the rows to create the interleaved matrix
@@ -41,10 +38,7 @@ end
 The \texttt{deinterleaving} function is the exact opposite of the interleaving function. In this case, the sequence is inserted into the rows of the \texttt{deinterleaver\_matrix} and then read through the column. Reasonably the body of the function is very similar to its reverse function.
 
 \begin{lstlisting}
-function unmixed_sequence = deinterleaving(mixed_sequence)
-    % Define the length of each column (also the number of rows)
-    column_length = 31;
-
+function unmixed_sequence = deinterleaving(mixed_sequence, column_length)
     % Calculate the number of columns (also the number of rows) based on the input sequence length
     row_length = length(mixed_sequence) / column_length;
 
