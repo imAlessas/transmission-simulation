@@ -26,28 +26,24 @@ for i = 1 : length(result)
     fprintf('Test #%i', i);
 
     % Generate a random number N for the length of the symbol sequence
-    N = k * randi(1e5, 1);
+    N = k * randi(1e6, 1);
 
     % Generate a random binary symbol sequence
-    symbol_sequence = randi(2, 1, N) - 1;
+    symbol_sequence = randi([0, 1], 1, N);
 
-    % Reshape the symbol sequence into a matrix
-    symbol_sequence_matrix = reshape(symbol_sequence, k, N/k)';
+    % Perform Hamming encoding on the symbol sequence
+    encoded_sequence = hamming_encoding(symbol_sequence, codeword_length, k, generation_polynomial);
 
-    % Perform Hamming encoding on the symbol sequence matrix
-    encoded_sequence_matrix = hamming_encoding(symbol_sequence_matrix, codeword_length, k, generation_polynomial);
-
-    % Introduce random errors in the encoded sequence matrix
-    for j = 1 : length(encoded_sequence_matrix(:,1))
+    % Introduce random errors in the encoded sequence
+    num_codewords = length(encoded_sequence) / codeword_length;
+    for j = 1 : num_codewords
         error_position = randi(codeword_length, 1);
-        encoded_sequence_matrix(j, error_position) = ~encoded_sequence_matrix(j, error_position);
+        encoded_sequence((j-1) * codeword_length + error_position) = ...
+            ~encoded_sequence((j-1) * codeword_length + error_position);
     end
 
-    % Perform Hamming decoding on the encoded sequence matrix
-    decoded_sequence_matrix = hamming_decoding(encoded_sequence_matrix, codeword_length, k, generation_polynomial);
-
-    % Reshape the decoded sequence matrix into a vector
-    decoded_sequence = reshape(decoded_sequence_matrix', 1, []);
+    % Perform Hamming decoding on the encoded sequence
+    decoded_sequence = hamming_decoding(encoded_sequence, codeword_length, k, generation_polynomial);
 
     % Compare the original symbol sequence with the decoded sequence
     result(i) = sum(symbol_sequence ~= decoded_sequence);
