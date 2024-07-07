@@ -40,7 +40,7 @@ end
 
 
 % Power Spectral Density (PSD) for random input signal
-omega = ( k(1) : 1/100 : k(end) ) * OMEGA; % angoular frequency 
+omega = ( K(1) : 1/100 : K(end) ) * OMEGA; % angoular frequency 
 
 phase = (omega - omega_0 ) * tau / 2; % continuous phase 2
 
