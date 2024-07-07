@@ -31,15 +31,7 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
 
 \begin{lstlisting}
     % Hamming encoding
-    % Create the matrix for the Hamming-encoding algorithm
-    binary_matrix = reshape(binary_sequence, k, N / k)';
-
-    % Hamming-encode the matrix
-    hamming_encoded_matrix = hamming_encoding(binary_matrix, codeword_length, k, generation_polynomial); % encode data
-    hamming_encoded_matrix = hamming_encoded_matrix';
-
-    % Unwrap the matrix into a single row
-    hamming_encoded_sequence = hamming_encoded_matrix(:)';
+    hamming_encoded_sequence = hamming_encoding(binary_sequence, codeword_length, k, generation_polynomial);
 
     % Update the number of bits
     M = N;
@@ -93,17 +85,9 @@ To plot such a graph it is necessary to evaluate the Bit Error Rate of the trans
 
         % Calculate BER value
         BER_no_hamming(i) = errors_number_no_hamming / N;
-        
 
-        % Reshape the sequence into a matrix, every row is a codeword
-        detected_sequence_matrix = reshape(detected_signal, codeword_length, N/codeword_length)';
-        
-        % Perform Hamming decoding
-        decoded_data_matrix = hamming_decoding(detected_sequence_matrix, codeword_length, k, generation_polynomial); % encode data
-        decoded_data_matrix = decoded_data_matrix';
-
-        % Unwrap the matrix into a sequence
-        decoded_data_sequence = decoded_data_matrix(:)'; 
+        % Hamming decoding
+        decoded_data_sequence = hamming_decoding(detected_signal, codeword_length, k, generation_polynomial); 
 
         % Check number of erros
         errors_number_with_hamming = sum (decoded_data_sequence ~= binary_sequence);
