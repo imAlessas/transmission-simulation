@@ -6,13 +6,16 @@ The Hamming encoding and decoding is the most crucial part of the transmission b
 
 
 \subsection{Cyclic Hamming encoding}\label{hamming-encoding}
-To perform the Hamming encoding to the sequence it is necessary to generate the \texttt{encoding\_matrix} using the \texttt{cyclgen} function\footnote{Note that the function needs to be imported: \texttt{import communications.*}.} that uses the codeword length and the generation polynomial defined at the \hyperref[initial-parameters]{beginning of the code}. The \texttt{hamming\_encoding} function, uses the generated encoding matrix to perform a matrix multiplication and encode the codeword.
+To perform the Hamming encoding to the sequence it is necessary to generate the \texttt{encoding\_matrix} using the \texttt{cyclgen} function\footnote{Note that the function needs to be imported: \texttt{import communications.*}.} that uses the codeword length and the generation polynomial defined at the \hyperref[initial-parameters]{beginning of the code}. The \texttt{hamming\_encoding} function, uses the generated encoding matrix to perform a matrix multiplication and encode the codeword. Noticeably, the function needs as input and returns as output a sequence even though inside it the sequence is transformed into a matrix and then converted into a vector.
 
 \begin{lstlisting}
-function encoded_data_matrix = hamming_encoding(binary_data_matrix, codeword_length, k, generation_polynomial)
-    % Calculate the number of redundant symbols (parity symbols)
-    r = codeword_length - k;
+function encoded_data = hamming_encoding(binary_data, codeword_length, k, generation_polynomial)
+    % Reshape the input binary data into a matrix with k columns
+    binary_data_matrix = reshape(binary_data, k, length(binary_data) / k)';
     
+    % Number of redundancy symbols (parity bits)
+    r = codeword_length - k;
+
     % Generate the cyclic encoding matrix based on the generator polynomial
     [~, cyclic_encoding_matrix] = cyclgen(codeword_length, generation_polynomial);
     
@@ -21,8 +24,11 @@ function encoded_data_matrix = hamming_encoding(binary_data_matrix, codeword_len
     cyclic_encoding_matrix = cyclic_encoding_matrix(:, reorder);
     
     % Calculate control symbol values using matrix multiplication
-    % Use rem() function to find modulo 2 sum as a remainder of division by 2
-    encoded_data_matrix = rem(binary_data_matrix * cyclic_encoding_matrix, 2);
+    % Perform modulo 2 operation to ensure binary result
+    encoded_data_matrix = rem(binary_data_matrix * cyclic_encoding_matrix, 2)';
+    
+    % Reshape the encoded data matrix into a vector and output
+    encoded_data = encoded_data_matrix(:)';
 end
 \end{lstlisting}
 
@@ -31,56 +37,68 @@ end
 The decoding algorithm is slightly more complicated due to its error-correction properties. The below-displayed \texttt{hamming\_decoding} function has the purpose of analyzing the encoded data and, by calculating the \texttt{syndrome\_value}, performing the error correction. After the decoding, the codeword length won't be 31 anymore but will return to 26.
 
 \begin{lstlisting}
-function decoded_data_matrix = hamming_decoding(encoded_data_matrix, codeword_length, k, generation_polynomial)  
-    % Determine the number of control symbols
+function decoded_data = hamming_decoding(encoded_data, codeword_length, k, generation_polynomial)
+    % Reshape the encoded data into a matrix where each row is a codeword
+    encoded_data_matrix = reshape(encoded_data, codeword_length, length(encoded_data) / codeword_length)';
+
+    % Calculate the number of control symbols (parity bits)
     r = codeword_length - k;
     
-    % Specify syndrome calculation matrix
+    % Generate the syndrome calculation matrix
     [~, cyclic_encoding_matrix] = cyclgen(codeword_length, generation_polynomial);
     syndrome_matrix = cyclic_encoding_matrix(:, (1:r));
     syndrome_matrix = [syndrome_matrix; eye(r)];
     
-    % Calculate syndrome for each codeword
+    % Calculate the syndrome for each codeword
     syndrome_value = rem(encoded_data_matrix * syndrome_matrix, 2);
     syndrome_value = syndrome_value * 2.^(r - 1 : -1 : 0)';
     
-    % Calculate error indexes based on syndrome values
-    error_indexes = get_error_indexes(syndrome_matrix, syndrome_value, codeword_length);
-        
-    % Define error vector table
+    % Get the associations vector (syndrome values to error positions mapping)
+    associations = get_associations(syndrome_matrix, codeword_length);
+    
+    % Map the syndrome value to error position
+    correction_index = [0, associations(:, 1)'];
+    error_indexes = correction_index(syndrome_value + 1);
+    
+    % Define the error vector table
     error_vector = [zeros(1, codeword_length);
                     eye(codeword_length)];
     
-    % Perform correction by adding the error vector to the received codeword
+    % Correct the errors in the received codewords
     codeword = rem(encoded_data_matrix + error_vector(error_indexes + 1, :), 2);
     
-    % Read the columns of data symbols to form decoded data
-    decoded_data_matrix = codeword(:, 1:k);
+    % Extract the information symbols from the corrected codewords
+    decoded_data_matrix = codeword(:, 1:k)';
+    
+    % Reshape the decoded data matrix back to a vector
+    decoded_data = decoded_data_matrix(:)';
 end
 \end{lstlisting}
 
-\noindent Noticeably, a crucial part of the cyclic error correction algorithm is the calculation of the \texttt{error\_indexes}. In the cyclic coding, the syndrome value and the error position are not linearly associated. For example, the syndrome value \texttt{0 0 0 0 1}$_2$ = 1 does not mean that the error is at index 1, but it is in position 31 instead and the syndrome \texttt{1 1 1 1 1}$_2$ = 31 is not associated with the position 31 but with the index 16. The association between the syndrome value and the error position is deterministic and the \texttt{get\_error\_indexes} function helps to associate the error-index and the syndome decimal value.
+\noindent Noticeably, a crucial part of the cyclic error correction algorithm is the calculation of the \texttt{associations}. In the cyclic coding, the syndrome value and the error position are not linearly associated. For example, the syndrome value \texttt{0 0 0 0 1}$_2$ = 1 does not mean that the error is at index 1, but it is in position 31 instead and the syndrome \texttt{1 1 1 1 1}$_2$ = 31 is not associated with the position 31 but with the index 16. The association between the syndrome value and the error position is deterministic and the \texttt{get\_associations} function helps to associate the error-index and the syndome decimal value. We can observe that the vector is \texttt{persistent}, meaning that it needs to be calculated only one time, helping the script to be more efficient.
 
 \begin{lstlisting}
-function error_indexes = get_error_indexes(syndrome_matrix, syndrome_value, codeword_length)
-    % Initialize vector to store decimal values of binary syndrome patterns
-    syndrome_decimal_value_vector = [];
-
-    % Convert binary syndrome values to decimal for association
-    for i = 1 : codeword_length
-        syndrome_decimal_value_vector = [syndrome_decimal_value_vector; bin2dec(num2str(syndrome_matrix(i, :)))];
+function associations = get_associations(syndrome_matrix, codeword_length)
+    % Persistent variable to store the associations across function calls
+    persistent cached_associations;
+    
+    % Check if associations are already calculated
+    if isempty(cached_associations)
+        % Initialize positions and syndrome decimal value vector
+        positions = (1 : codeword_length)';
+        syndrome_decimal_value_vector = [];
+        
+        % Calculate syndrome decimal values for each position
+        for i = 1 : codeword_length
+            syndrome_decimal_value_vector = [syndrome_decimal_value_vector; bin2dec(num2str(syndrome_matrix(i, :)))];
+        end
+        
+        % Create the associations matrix and sort by syndrome value
+        cached_associations = [positions, syndrome_decimal_value_vector];
+        cached_associations = sortrows(cached_associations, 2);
     end
-
-    % Combine positions and corresponding decimal values for sorting
-    associations = [transpose(1:codeword_length), syndrome_decimal_value_vector];
-
-    % Sort associations based on decimal values for efficient error detection
-    associations = sortrows(associations, 2);
-
-    % Create correction index for mapping syndrome values to error positions
-    correction_index = [0, associations(:, 1)'];
-
-    % Map syndrome values to error positions using correction index
-    error_indexes = correction_index(syndrome_value + 1);
+    
+    % Return the cached associations
+    associations = cached_associations;
 end
 \end{lstlisting}
