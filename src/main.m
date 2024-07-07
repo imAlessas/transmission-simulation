@@ -13,8 +13,8 @@ import func.*
 % RESULT: Display values as per guidelines
 % DEBUG: Additional display for variables or comparisons
 % PLOTS: Toggle for generating plots
-SIMULATION = 0; % Set to 1 to compute the simulation
-ANALYSIS = 1;   % Set to 1 to enable the analysis
+SIMULATION = 1; % Set to 1 to compute the simulation
+ANALYSIS = 0;   % Set to 1 to enable the analysis
 RESULT = 1;     % Set to 1 to display result values
 DEBUG = 0;      % Set to 1 to enable additional debugging display
 PLOTS = 1;      % Set to 1 to generate plots, 0 to disable plots
@@ -66,6 +66,7 @@ if SIMULATION
     alphabet_matrix = [alphabet; probability_vector];
     show(DEBUG, alphabet_matrix);
     
+    disp(" - Creating sequence");
     initial_symbol_sequence = symbol_sequence_generator(alphabet_matrix, transmitted_symbol_number);
     show(DEBUG, initial_symbol_sequence);
 end
@@ -84,10 +85,12 @@ end
 % Perform Shannon-Fano Source Encoding
 
 if SIMULATION
+    disp("   - Performing Shannon-Fano encoding");
     shannon_fano_encoded_sequence = shannon_fano_encoding(initial_symbol_sequence);
     show(DEBUG, shannon_fano_encoded_sequence);
     
-    padded_sequence = add_padding_bits(shannon_fano_encoded_sequence);
+    disp("     - Adding padding bits");
+    padded_sequence = add_padding_bits(shannon_fano_encoded_sequence, k, r);
     show(DEBUG, padded_sequence);
 end
 
@@ -137,39 +140,35 @@ end
 % Perform Cyclic-Hamming channel coding
 
 if SIMULATION
-    % Wrap into a matrix
-    padded_matrix = reshape(padded_sequence, k, length(padded_sequence) / k)';
 
-    hamming_encoded_matrix = hamming_encoding(padded_matrix, codeword_length, k, generation_polynomial);
-    hamming_encoded_matrix = hamming_encoded_matrix';
-
-    % unwrap matrix
-    hamming_encoded_sequence = hamming_encoded_matrix(:)';
-    % show(DEBUG, hamming_encoded_sequence);
-
+    disp("       - Performing Hamming-Encoding");
+    hamming_encoded_sequence = hamming_encoding(padded_sequence, codeword_length, k, generation_polynomial);
+    show(DEBUG, hamming_encoded_sequence);
 
 
 % = = = = = = = = = = = = = = = = = = = =
 % Perform interleaving
 
-
-    interleaved_sequence = interleaving(hamming_encoded_sequence);
-    % show(DEBUG, interleaved_sequence)
+    disp("         - Performing interleaving");
+    interleaved_sequence = interleaving(hamming_encoded_sequence, codeword_length);
+    show(DEBUG, interleaved_sequence)
 
 
 
 % = = = = = = = = = = = = = = = = = = = =
 % Perform scrambling
 
-
+    disp("           - Performing scrambling");
     scrambled_sequence = scrambling(interleaved_sequence, scrambler_key);
-    % show(DEBUG, scrambled_sequence);
+    show(DEBUG, scrambled_sequence);
 
 
 
 
 % = = = = = = = = = = = = = = = = = = = =
 % Perform modulation
+
+    disp("             - Performing BPSK modulation");
 
     % Define the time-step
     delta_t = tau / samples_per_symbol;
@@ -212,6 +211,9 @@ end
 % Perform Gaussion White Noise addition
 
 if SIMULATION
+
+    disp("               - Adding GWN");
+
     % Reversed SNR formula
     EbN0 = 10^(SNR / 10);
     
@@ -231,6 +233,8 @@ if SIMULATION
 % = = = = = = = = = = = = = = = = = = = =
 % Perform detection
 
+    disp("             - Performing BPSK demodulation");
+
     % Slice recieved signal into segments in each column
     sliced_disturbed_signal = reshape(disturbed_signal, samples_per_symbol, N);
     
@@ -243,8 +247,8 @@ if SIMULATION
 % = = = = = = = = = = = = = = = = = = = =
 % Perform descrambling
 
+    disp("           - Performing descrambling");
     descrambled_sequence = descrambling(detected_signal, scrambler_key);
-    
     show(DEBUG, sum(descrambled_sequence ~= interleaved_sequence), "Descrambling" )
 
 
@@ -252,13 +256,13 @@ if SIMULATION
 % = = = = = = = = = = = = = = = = = = = =
 % Perform deinterleaving
 
-    deinterleaved_sequence = deinterleaving(descrambled_sequence);
-    
+    disp("         - Performing deinterleaving");
+    deinterleaved_sequence = deinterleaving(descrambled_sequence, codeword_length);
     show(DEBUG, sum(deinterleaved_sequence ~= hamming_encoded_sequence), "Deinterleaving" )
     
     
     errors_occurred = sum(deinterleaved_sequence ~= hamming_encoded_sequence);
-    show(RESULT, errors_occurred, "Errors occurred during the transmission:");
+    fprintf("            Errors occurred: %d\n", errors_occurred);
 
 
 
@@ -266,30 +270,23 @@ if SIMULATION
 % = = = = = = = = = = = = = = = = = = = =
 % Perform Hamming-decoding and error correction
 
-    % Wraps the sequence into a matrix
-    deinterleaved_matrix = reshape(deinterleaved_sequence, codeword_length, length(deinterleaved_sequence) / codeword_length)';
-    
-    hamming_decoded_matrix = hamming_decoding(deinterleaved_matrix, codeword_length, k, generation_polynomial);
-    hamming_decoded_matrix = hamming_decoded_matrix';
-    
-    % Unwraps the matrix into a sequence
-    hamming_decoded_sequence = hamming_decoded_matrix(:)';
-    
+    disp("       - Performing Hamming-decoding");
+    hamming_decoded_sequence = hamming_decoding(deinterleaved_sequence, codeword_length, k, generation_polynomial);
     show(DEBUG, sum(hamming_decoded_sequence ~= padded_sequence), "Channel decoding" )
 
 
 % = = = = = = = = = = = = = = = = = = = =
 % Remove padding bits
 
-    unpadded_sequence = remove_padding_bits(hamming_decoded_sequence);
-    
+    disp("     - Removing padding bits");
+    unpadded_sequence = remove_padding_bits(hamming_decoded_sequence, r);
     show(DEBUG, sum(unpadded_sequence ~= shannon_fano_encoded_sequence), "Unpadding" )
 
 % = = = = = = = = = = = = = = = = = = = =
 % Perform Shannon-Fano decoding
 
+    disp("   - Performing Shannon-Fano decoding");
     shannon_fano_decoded_sequence = shannon_fano_decoding(unpadded_sequence);
-    
     show(DEBUG, sum(shannon_fano_decoded_sequence ~= initial_symbol_sequence), "Source decoding" )
 
 % = = = = = = = = = = = = = = = = = = = =
@@ -302,7 +299,8 @@ if SIMULATION
     
     % Shows the actual errors between the initial and the final sequence
     errors_occurred = sum(shannon_fano_decoded_sequence ~= initial_symbol_sequence);
-    show(RESULT, errors_occurred, "Uncorrected errors:");
+    fprintf("\nReal number of errors: %d\n", errors_occurred);
 end
 
 
+fprintf("\n\nEnd of experiemnt.\n\n");
