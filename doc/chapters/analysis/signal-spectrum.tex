@@ -23,7 +23,7 @@ To analyze and plot the spectrum of a periodic \texttt{1010} sequence signal som
     k_0 = omega_0 / OMEGA;
 
     % Define range of indexes for spectrum
-    k = k_0 + (-10 : 10);
+    K = k_0 + (-10 : 10);
 \end{lstlisting}
 
 \noindent At this point, the BPSK spectrum can be calculated. To do so it is necessary to calculate the Fourier series coefficient for the BASK\footnote{Which stands for Binary Amplitude Shift Keying} modulation type using the following equation:
@@ -42,12 +42,12 @@ To analyze and plot the spectrum of a periodic \texttt{1010} sequence signal som
 
 \begin{lstlisting}
     % Phase value of the spectral function
-    phase = (k * OMEGA - omega_0) * tau / 2;
+    phase = (K * OMEGA - omega_0) * tau / 2;
 
     C_BASK = sinc(phase / pi) * U / 4 * 1j; % fourirer series coefficient, BASK
 
     % BPSK spectrum for periodocal '1' and '0' sequence (...1 0 1 0 1 0 1 0 1 0...)
-    C_BPSK = C_BASK .* ( exp(1j * k * OMEGA * tau / 2) -  exp(- 1j * k * OMEGA * tau / 2));
+    C_BPSK = C_BASK .* ( exp(1j * K * OMEGA * tau / 2) -  exp(- 1j * K * OMEGA * tau / 2));
 \end{lstlisting}
 
 \noindent After numerically calculating the spectrum, it is very important to plot the result by running the following code snippet.
@@ -60,7 +60,7 @@ To analyze and plot the spectrum of a periodic \texttt{1010} sequence signal som
     f.Position = [200, 120, 1200, 600];
     
     % plot 1st result
-    stem( k * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
+    stem( K * OMEGA / (2 * pi), abs(C_BPSK), 'b' ), grid on,
     xlabel('Frequency [GHz]'), ylabel('Amplitude, [V]'), title('Amplitude Spectrum of periodic signal')
     ylim([-0.05, 0.35]);
 \end{lstlisting}
@@ -86,7 +86,7 @@ After plotting and analyzing the spectrum in the case of a periodic signal, it w
 
 \begin{lstlisting}
     % Power Spectral Density (PSD) for random input signal
-    omega = ( k(1) : 1/100 : k(end) ) * OMEGA; % angoular frequency 
+    omega = ( K(1) : 1/100 : K(end) ) * OMEGA; % angoular frequency 
 
     phase = (omega - omega_0 ) * tau / 2; % continuous phase 
     S_BASK =  2 * tau * sinc(phase / pi ) * U / 4 * 1j;
