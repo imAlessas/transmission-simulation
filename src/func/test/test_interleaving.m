@@ -15,17 +15,20 @@ tic;
 for i = 1 : length(result)
     fprintf('Test #%i', i);
 
+    % Generate a random number for the length of the column
+    column_length = randi(1e3, 1);
+
     % Generate a random number N for the length of the symbol sequence
-    N = 31 * randi(1e6, 1);
+    N = column_length * randi(1e5, 1);
     
     % Generate a random binary symbol sequence
     symbol_sequence = randi(2, 1, N) - 1;
     
     % Apply interleaving to the symbol sequence
-    mixed_sequence = interleaving(symbol_sequence);
+    mixed_sequence = interleaving(symbol_sequence, column_length);
     
     % Apply deinterleaving to the interleaved sequence
-    unmixed_sequence = deinterleaving(mixed_sequence);
+    unmixed_sequence = deinterleaving(mixed_sequence, column_length);
     
     % Count the number of errors between the original and deinterleaved sequences
     result(i) = sum(symbol_sequence ~= unmixed_sequence);

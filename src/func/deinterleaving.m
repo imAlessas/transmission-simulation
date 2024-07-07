@@ -1,4 +1,4 @@
-function unmixed_sequence = deinterleaving(mixed_sequence)
+function unmixed_sequence = deinterleaving(mixed_sequence, column_length)
 % DEINTERLEAVING rearranges an interleaved sequence into its original form.
 %
 % INPUT:
@@ -6,9 +6,6 @@ function unmixed_sequence = deinterleaving(mixed_sequence)
 %
 % OUTPUT:
 %   unmixed_sequence:   A vector representing the original sequence.
-
-    % Define the length of each column (also the number of rows)
-    column_length = 31;
 
     % Calculate the number of columns (also the number of rows) based on the input sequence length
     row_length = length(mixed_sequence) / column_length;
