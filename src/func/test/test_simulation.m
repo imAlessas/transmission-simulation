@@ -25,7 +25,7 @@ r = ceil(log2(codeword_length + 1));          % r for Hamming encoding
 k = codeword_length - r;    % k for Hamming encoding
 
 % Number of tests to perform
-number_of_tests = 100;
+number_of_tests = 1e3;
 
 % Initialize result array to store test outcomes
 result = 1 : number_of_tests;
@@ -38,7 +38,7 @@ for i = 1 : length(result)
     fprintf('Test #%i', i);
 
     % Generate a random number of symbols to transmit
-    transmitted_symbol_number =  randi(1e4, 1);
+    transmitted_symbol_number =  randi(1e6, 1);
 
     % Generate the initial symbol sequence based on the alphabet and probabilities
     alphabet_matrix = [alphabet; probability_vector];
@@ -48,20 +48,13 @@ for i = 1 : length(result)
     shannon_fano_encoded_sequence = shannon_fano_encoding(initial_symbol_sequence);
     
     % Add padding bits to the Shannon-Fano encoded sequence
-    padded_sequence = add_padding_bits(shannon_fano_encoded_sequence);
+    padded_sequence = add_padding_bits(shannon_fano_encoded_sequence, k, r);
 
-    % Reshape the padded sequence into a matrix for Hamming encoding
-    padded_matrix = reshape(padded_sequence, k, length(padded_sequence) / k)';
-    
-    % Perform Hamming encoding
-    hamming_encoded_matrix = hamming_encoding(padded_matrix, codeword_length, k, generation_polynomial);
-    hamming_encoded_matrix = hamming_encoded_matrix';
-
-    % Unwrap the matrix into a sequence
-    hamming_encoded_sequence = hamming_encoded_matrix(:)';
+    % Perform hamming encoding
+    hamming_encoded_sequence = hamming_encoding(padded_sequence, codeword_length, k, generation_polynomial);
 
     % Perform interleaving on the Hamming encoded sequence
-    interleaved_sequence = interleaving(hamming_encoded_sequence);
+    interleaved_sequence = interleaving(hamming_encoded_sequence, codeword_length);
 
     % Generate a random scrambler key
     scrambler_key = randi(2, 1, codeword_length) - 1; 
@@ -116,20 +109,13 @@ for i = 1 : length(result)
     descrambled_sequence = descrambling(detected_signal, scrambler_key);
     
     % Perform deinterleaving on the descrambled sequence
-    deinterleaved_sequence = deinterleaving(descrambled_sequence);
+    deinterleaved_sequence = deinterleaving(descrambled_sequence, codeword_length);
 
-    % Reshape the deinterleaved sequence into a matrix for Hamming decoding
-    deinterleaved_matrix = reshape(deinterleaved_sequence, codeword_length, length(deinterleaved_sequence) / codeword_length)';
-    
     % Perform Hamming decoding
-    hamming_decoded_matrix = hamming_decoding(deinterleaved_matrix, codeword_length, k, generation_polynomial);
-    hamming_decoded_matrix = hamming_decoded_matrix';
-    
-    % Unwrap the matrix into a sequence
-    hamming_decoded_sequence = hamming_decoded_matrix(:)';
+    hamming_decoded_sequence = hamming_decoding(deinterleaved_sequence, codeword_length, k, generation_polynomial);
 
     % Remove padding bits from the decoded Hamming sequence
-    unpadded_sequence = remove_padding_bits(hamming_decoded_sequence);
+    unpadded_sequence = remove_padding_bits(hamming_decoded_sequence, r);
 
     % Perform Shannon-Fano decoding on the unpadded sequence
     shannon_fano_decoded_sequence = shannon_fano_decoding(unpadded_sequence);
@@ -167,3 +153,13 @@ end
 
 % Display the total duration of the test
 disp("Test duration: " + test_duration);
+
+% Plot the source probability distribution
+f = figure(1);
+f.Name = 'Errors';
+f.NumberTitle = 'off';
+f.Position = [450, 100, 700, 600];
+
+plot( (1 : number_of_tests), result), grid on;
+xlabel('Test'), ylabel('Errors'), title('Errorsoccurred during test');
+xlim([0, number_of_tests + 1]), ylim([0, max(result) + 2]);
