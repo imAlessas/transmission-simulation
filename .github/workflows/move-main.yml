@@ -24,6 +24,11 @@ jobs:
           else
             echo "doc/main.pdf does not exist, skipping move step."
           fi
+      
+      - name: Copy PDF into ./web
+        run: |
+            cp main.pdf web/main.pdf
+
 
       - name: Set up Git
         run: |
