@@ -1,6 +1,6 @@
 # Transmission System Simulation and Analysis
 
-This project aims to simulate and analyze a comprehensive digital information transmission system implemented in MATLAB. The primary script for the entire project is encapsulated in the `src/main.m` file, while a detailed description is available in the auto-generated PDF file, `main.pdf`, derived from the `.tex` files.
+This project aims to simulate and analyze a comprehensive digital information transmission system implemented in MATLAB. The primary script for the entire project is encapsulated in the [`src/main.m`](./src/main.m) file, while a detailed description is available in the auto-generated PDF file, [`main.pdf`](https://imalessas.github.io/transmission-simulation/main.pdf), derived from the `.tex` files.
 
 ## Overview
 The transmission system encompasses various components and processes, providing a holistic view of digital information transmission. Understanding the core functionalities and features of the system is crucial for effective utilization.
