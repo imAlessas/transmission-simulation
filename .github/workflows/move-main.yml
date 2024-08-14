@@ -1,4 +1,4 @@
-name: MOve doc/main.pdf to root
+name: Move doc/main.pdf to root
 
 on:
   push:
@@ -38,6 +38,6 @@ jobs:
             echo "No changes to commit, skipping commit and push."
           else
             git add --all
-            git commit -m "MOve main.pdf to root folder"
+            git commit -m "Move main.pdf to root folder"
             git push origin $base_branch
           fi
